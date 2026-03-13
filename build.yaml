@@ -1,6 +1,6 @@
 ---
 include:
-  - board: nrf52840_m2
+  - board: nice_nano
     shield: corne_left
-  - board: nrf52840_m2
+  - board: nice_nano
     shield: corne_right

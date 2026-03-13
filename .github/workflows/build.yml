@@ -1,0 +1,36 @@
+name: Build ZMK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:3.5
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Initialize workspace
+        run: |
+          west init -l config
+          west update
+      
+      - name: Build left side
+        run: |
+          west build -s app -d build/left -b nrf52840_m2 -- -DSHIELD=corne_left -DZMK_CONFIG=/github/workspace/config
+      
+      - name: Build right side
+        run: |
+          west build -s app -p -d build/right -b nrf52840_m2 -- -DSHIELD=corne_right -DZMK_CONFIG=/github/workspace/config
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware
+          path: |
+            build/left/zephyr/zmk.uf2
+            build/right/zephyr/zmk.uf2

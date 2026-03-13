@@ -13,20 +13,21 @@ jobs:
       image: zmkfirmware/zmk-build-arm:3.5
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Initialize workspace
+
+      - name: Initialize ZMK workspace
         run: |
-          west init -l config
+          west init -l .
           west update
-      
+          west zephyr-export
+
       - name: Build left side
         run: |
-          west build -s app -d build/left -b nrf52840_m2 -- -DSHIELD=corne_left -DZMK_CONFIG=/github/workspace/config
-      
+          west build -s app -d build/left -b nrf52840_m2 -- -DSHIELD=corne_left -DZMK_CONFIG=/github/workspace
+
       - name: Build right side
         run: |
-          west build -s app -p -d build/right -b nrf52840_m2 -- -DSHIELD=corne_right -DZMK_CONFIG=/github/workspace/config
-      
+          west build -s app -p -d build/right -b nrf52840_m2 -- -DSHIELD=corne_right -DZMK_CONFIG=/github/workspace
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

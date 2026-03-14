@@ -1,12 +1,5 @@
-/ {
-    chosen {
-        zmk,rgb-underglow = &underglow;
-    };
-
-    underglow: underglow {
-        compatible = "zmk,rgb-underglow";
-        chain-length = <27>;
-        color-mapping = <0 1 2>;
-        gpios = <&gpio0 6 0>;
-    };
+// Fix chain-length: Corne Choc v2.5 KeebMaker has 27 LEDs per side
+// SPI3 on P0.06 is already correctly configured by the standard Corne shield
+&led_strip {
+    chain-length = <27>;
 };

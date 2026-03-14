@@ -22,11 +22,11 @@ jobs:
 
       - name: Build left side
         run: |
-          west build -s app -d build/left -b nice_nano -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/config
+          west build -s zmk/app -d build/left -b nice_nano -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Build right side
         run: |
-          west build -s app -p -d build/right -b nice_nano -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/config
+          west build -s zmk/app -p -d build/right -b nice_nano -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

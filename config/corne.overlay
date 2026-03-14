@@ -10,16 +10,3 @@
         gpios = <&gpio0 6 0>;
     };
 };
-
-// Mouse acceleration: QMK-like settings
-&mmv {
-    time-to-max-speed-ms = <600>;
-    acceleration-exponent = <1>;
-    delay-ms = <10>;
-};
-
-&msc {
-    time-to-max-speed-ms = <600>;
-    acceleration-exponent = <1>;
-    delay-ms = <10>;
-};

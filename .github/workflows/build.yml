@@ -16,11 +16,8 @@ jobs:
 
       - name: Initialize ZMK workspace
         run: |
-          mkdir -p app
-          cp config/west.yml app/
-          west init -m https://github.com/zmkfirmware/zmk.git --mr main --mf app/west.yml
+          west init -m https://github.com/zmkfirmware/zmk.git --mr main
           west update
-          cp -r config/* app/
           west zephyr-export
 
       - name: Build left side

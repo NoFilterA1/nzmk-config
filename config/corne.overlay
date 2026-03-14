@@ -1,17 +1,12 @@
 / {
+    chosen {
+        zmk,rgb-underglow = &underglow;
+    };
+
     underglow: underglow {
         compatible = "zmk,rgb-underglow";
         chain-length = <27>;
-    };
-};
-
-&spi3 {
-    status = "okay";
-
-    ws2812: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
-        reg = <0>;
-        spi-max-frequency = <4000000>;
-        chain-length = <27>;
+        color-mapping = <0 1 2>;
+        gpios = <&gpio0 6 0>;
     };
 };

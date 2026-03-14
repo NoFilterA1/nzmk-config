@@ -1,7 +1,5 @@
-// Fix chain-length and color-mapping: Corne Choc v2.5 KeebMaker
+// Corne Choc v2.5 KeebMaker: 27 LEDs per side
 // SPI3 on P0.06 is already correctly configured by the standard Corne shield
-// SK6812MINI-E uses GRB color order
 &led_strip {
     chain-length = <27>;
-    color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
 };

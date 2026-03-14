@@ -2,7 +2,6 @@
     underglow: underglow {
         compatible = "zmk,rgb-underglow";
         chain-length = <27>;
-        color-mapping = <0 1 2>;
     };
 };
 

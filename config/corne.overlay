@@ -1,5 +1,5 @@
 // Corne Choc v2.5 KeebMaker: 27 LEDs per side
-// SPI3 on P0.06 is already correctly configured by the standard Corne shield
-&led_strip {
-    chain-length = <27>;
-};
+// DISABLED for testing - may be blocking OLED I2C initialization
+// &led_strip {
+//     chain-length = <27>;
+// };

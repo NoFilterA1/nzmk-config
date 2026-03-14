@@ -22,7 +22,7 @@ jobs:
 
       - name: Build left side
         run: |
-          west build -s zmk/app -d build/left -b nice_nano//zmk -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/config
+          west build -s zmk/app -d build/left -b nice_nano_v2//zmk -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Dump RGB devicetree (left)
         run: |
@@ -33,7 +33,7 @@ jobs:
 
       - name: Build right side
         run: |
-          west build -s zmk/app -p -d build/right -b nice_nano//zmk -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/config
+          west build -s zmk/app -p -d build/right -b nice_nano_v2//zmk -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Dump RGB devicetree (right)
         run: |

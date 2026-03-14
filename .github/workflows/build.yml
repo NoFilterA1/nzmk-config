@@ -18,16 +18,15 @@ jobs:
         run: |
           west init -m https://github.com/zmkfirmware/zmk.git --mr main --mf app/west.yml
           west update
-          cp -r config/* app/
           west zephyr-export
 
       - name: Build left side
         run: |
-          west build -s app -d build/left -b nice_nano -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/app
+          west build -s app -d build/left -b nice_nano -- -DSHIELD=corne_left -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Build right side
         run: |
-          west build -s app -p -d build/right -b nice_nano -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/app
+          west build -s app -p -d build/right -b nice_nano -- -DSHIELD=corne_right -DZMK_CONFIG=$GITHUB_WORKSPACE/config
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

@@ -99,7 +99,7 @@
             bindings = <
 &none              &none   &none   &none     &to 4    &none        &mkp MB1        &mkp MB2        &none         &none            &none  &none
 &kp F1             &kp F2  &kp F3  &kp F4    &kp F5   &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
-&studio_unlock     &kp F8  &kp F9  &kp F10   &kp F11  &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &none
+&kp F7             &kp F8  &kp F9  &kp F10   &kp F11  &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
                                    &kp LGUI  &trans   &kp SPACE    &kp RET         &trans          &kp RALT
             >;
         };
@@ -108,7 +108,7 @@
             // Подсветка RGB. Возврат на нулевой слой (to 0), чтобы выйти из режима
 
             bindings = <
-&rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &to 4
 &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &rgb_ug RGB_EFR  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_SPD  &rgb_ug RGB_SPI  &trans    &trans  &trans  &trans  &trans  &trans  &trans
                                                    &trans           &trans           &trans    &trans  &trans  &trans

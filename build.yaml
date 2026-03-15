@@ -4,6 +4,3 @@ include:
     shield: corne_left
   - board: nice_nano//zmk
     shield: corne_right
-
-snippets:
-  - studio-rpc-usb-uart

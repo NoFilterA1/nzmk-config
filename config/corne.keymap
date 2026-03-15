@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+// Mouse speed: must be defined BEFORE mouse.h which includes pointing.h
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 10
+
 #include <dt-bindings/zmk/mouse.h>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>

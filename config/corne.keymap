@@ -95,13 +95,14 @@
 
         adjust_layer {
             // Мышиные клавиши, макросы, Studio Unlock
-            // LGUI + MO1 + MO2 + RALT = toggle Colemak-DH (layer 5)
+            // LGUI + MO1 + MO2 + RALT = включить Colemak-DH (to 5)
+            // Тот же combo пока на Colemak = вернуться на QWERTY (to 0)
 
             bindings = <
 &none              &none   &none   &none     &to 4    &none        &mkp MB1        &mkp MB2        &none         &none            &none  &none
 &kp F1             &kp F2  &kp F3  &kp F4    &kp F5   &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
 &kp F7             &kp F8  &kp F9  &kp F10   &kp F11  &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
-                                   &kp LGUI  &trans   &kp SPACE    &kp RET         &trans          &tog 5
+                                   &kp LGUI  &trans   &kp SPACE    &kp RET         &trans          &to 5
             >;
         };
 
@@ -118,14 +119,14 @@
 
         colemak_layer {
             // Colemak-DH альтернативный базовый слой
-            // Включается/выключается через: LGUI + MO1 + MO2 + RALT (tog 5 на adjust)
-            // MO1/MO2/conditional_layers работают поверх как обычно
+            // Включается через: LGUI + MO1 + MO2 + RALT (to 5 на adjust)
+            // Выключается через тот же combo (to 0 на adjust) — MO1+MO2 работают поверх как обычно
 
             bindings = <
 &kp TAB    &kp Q  &kp W  &kp F     &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
 &kp LSHFT  &kp A  &kp R  &kp S     &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
 &kp LCTRL  &kp X  &kp C  &kp D     &kp V  &kp Z        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &kp RALT
+                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &to 0
             >;
         };
     };

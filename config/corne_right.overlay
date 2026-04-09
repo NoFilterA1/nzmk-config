@@ -1,0 +1,21 @@
+/*
+ * Corne Choc v2.5 KeebMaker — RIGHT half
+ * 27 LEDs: 6 underglow + 21 per-key
+ */
+
+&led_strip {
+    chain-length = <27>;
+};
+
+/ {
+    rgb_layer: underglow-layer {
+        compatible = "zmk,underglow-layer";
+        pixel-lookup = <
+            255 255 255 255 255 255    /* underglow */
+              6   7   8   9  10  11
+             23  22  21  20  19  18
+             30  31  32  33  34  35
+             39  40  41
+        >;
+    };
+};

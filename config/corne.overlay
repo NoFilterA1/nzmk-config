@@ -1,4 +1,0 @@
-// Corne Choc v2.5 KeebMaker: 27 LEDs per side (6 underglow + 21 per-key)
-&led_strip {
-    chain-length = <27>;
-};

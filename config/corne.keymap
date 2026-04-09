@@ -2,8 +2,8 @@
  * Copyright (c) 2020 The ZMK Contributors
  * SPDX-License-Identifier: MIT
  */
-
 // Mouse speed: must be defined BEFORE mouse.h which includes pointing.h
+
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1200
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 10
 
@@ -63,6 +63,27 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+
+        // Переключение QWERTY ↔ Colemak-DH: LGUI + LOWER + RAISE + RALT одновременно
+        // Два combo на одних позициях, но на разных слоях
+
+        combo_colemak_on {
+            timeout-ms = <50>;
+            key-positions = <36 37 40 41>;
+            bindings = <&to 5>;
+            layers = <0>;
+        };
+
+        combo_colemak_off {
+            timeout-ms = <50>;
+            key-positions = <36 37 40 41>;
+            bindings = <&to 0>;
+            layers = <5>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -95,14 +116,12 @@
 
         adjust_layer {
             // Мышиные клавиши, макросы, Studio Unlock
-            // LGUI + MO1 + MO2 + RALT = включить Colemak-DH (to 5)
-            // Тот же combo пока на Colemak = вернуться на QWERTY (to 0)
 
             bindings = <
-&none              &none   &none   &none     &to 4    &none        &mkp MB1        &mkp MB2        &none         &none            &none  &none
-&kp F1             &kp F2  &kp F3  &kp F4    &kp F5   &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
-&kp F7             &kp F8  &kp F9  &kp F10   &kp F11  &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
-                                   &kp LGUI  &trans   &kp SPACE    &kp RET         &trans          &to 5
+&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 4        &mkp MB1        &mkp MB2        &none         &none            &none  &none
+&kp F1  &kp F2  &kp F3  &kp F4    &kp F5           &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
+&kp F7  &kp F8  &kp F9  &kp F10   &kp F11          &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
+                        &kp LGUI  &trans           &kp SPACE    &kp RET         &trans          &kp RALT
             >;
         };
 
@@ -110,7 +129,7 @@
             // Подсветка RGB. Возврат на нулевой слой (to 0), чтобы выйти из режима
 
             bindings = <
-&rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &to 4
+&rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &studio_unlock
 &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &rgb_ug RGB_EFR  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_SPD  &rgb_ug RGB_SPI  &trans    &trans  &trans  &trans  &trans  &trans  &trans
                                                    &trans           &trans           &trans    &trans  &trans  &trans
@@ -118,16 +137,106 @@
         };
 
         colemak_layer {
-            // Colemak-DH альтернативный базовый слой
-            // Включается через: LGUI + MO1 + MO2 + RALT (to 5 на adjust)
-            // Выключается через тот же combo (to 0 на adjust) — MO1+MO2 работают поверх как обычно
+            // Colemak-DH: альтернативный базовый слой
+            // Вход: LGUI + LOWER + RAISE + RALT (combo_colemak_on, &to 5)
+            // Выход: то же самое (combo_colemak_off, &to 0)
+            // MO1/MO2/conditional_layers работают поверх как на базовом слое
 
             bindings = <
 &kp TAB    &kp Q  &kp W  &kp F     &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
 &kp LSHFT  &kp A  &kp R  &kp S     &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
 &kp LCTRL  &kp X  &kp C  &kp D     &kp V  &kp Z        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &to 0
+                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &kp RALT
             >;
         };
+    };
+};
+
+/* Per-key RGB layer colors */
+
+&rgb_layer {
+    layer_0 {
+        layer-id = <0>;
+        bindings = <
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010
+            &ug 0x100010 &ug 0x100010 &ug 0x100010
+        >;
+    };
+
+    layer_1 {
+        layer-id = <1>;
+        bindings = <
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+        >;
+    };
+
+    layer_2 {
+        layer-id = <2>;
+        bindings = <
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+        >;
+    };
+
+    layer_3 {
+        layer-id = <3>;
+        bindings = <
+            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
+            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
+            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
+            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
+            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
+            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
+            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
+            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
+        >;
+    };
+
+    layer_4 {
+        layer-id = <4>;
+        bindings = <
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+        >;
+    };
+
+    layer_5 {
+        layer-id = <5>;
+        bindings = <
+            // Colemak-DH: оранжевый акцент
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+        >;
     };
 };

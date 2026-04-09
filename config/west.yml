@@ -1,11 +1,12 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
+    - name: nofilter
+      url-base: https://github.com/NoFilterA1
   projects:
     - name: zmk
-      remote: zmkfirmware
-      revision: 9278505975759e9cf01b4e6e8ead359b14a11400
+      remote: nofilter
+      repo-path: rgb-nzmk
+      revision: zmk-perkey_ug
       import: app/west.yml
   self:
     path: config

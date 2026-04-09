@@ -1,9 +1,9 @@
 ---
 include:
   - board: nice_nano/nrf52840
-    shield: corne_left
+    shield: corne_left nice_oled
   - board: nice_nano/nrf52840
-    shield: corne_right
+    shield: corne_right nice_oled
 
 snippets:
   - studio-rpc-usb-uart

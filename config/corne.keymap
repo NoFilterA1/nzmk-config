@@ -52,14 +52,14 @@
         };
     };
 
-    // Охуенная замена FN_MO13 и FN_MO23 из QMK: если зажаты оба пальца (слой 1 и 2), прыгаем на 3 (Adjust)
+    // Охуенная замена FN_MO13 и FN_MO23 из QMK: если зажаты оба пальца (слой 2 и 3), прыгаем на 4 (Adjust)
 
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <1 2>;
-            then-layer = <3>;
+            if-layers = <2 3>;
+            then-layer = <4>;
         };
     };
 
@@ -72,7 +72,7 @@
         combo_colemak_on {
             timeout-ms = <50>;
             key-positions = <36 37 40 41>;
-            bindings = <&to 5>;
+            bindings = <&to 1>;
             layers = <0>;
         };
 
@@ -80,22 +80,37 @@
             timeout-ms = <50>;
             key-positions = <36 37 40 41>;
             bindings = <&to 0>;
-            layers = <5>;
+            layers = <1>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
+        // Layer 0: QWERTY (default base)
         default_layer {
             bindings = <
 &kp TAB    &kp Q  &kp W  &kp E     &kp R  &kp T        &kp Y    &kp U  &kp I      &kp O    &kp P     &kp BACKSPACE
 &kp LSHFT  &kp A  &kp S  &kp D     &kp F  &kp G        &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
 &kp LCTRL  &kp Z  &kp X  &kp C     &kp V  &kp B        &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &kp RALT
+                         &kp LGUI  &mo 2  &kp SPACE    &kp RET  &mo 3  &kp RALT
             >;
         };
 
+        // Layer 1: Colemak-DH (alternate base)
+        // Вход: LGUI + LOWER + RAISE + RALT (combo_colemak_on, &to 1)
+        // Выход: то же самое (combo_colemak_off, &to 0)
+        // MO2/MO3/conditional_layers работают поверх как на базовом слое
+        colemak_layer {
+            bindings = <
+&kp TAB    &kp Q  &kp W  &kp F     &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
+&kp LSHFT  &kp A  &kp R  &kp S     &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
+&kp LCTRL  &kp X  &kp C  &kp D     &kp V  &kp Z        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
+                         &kp LGUI  &mo 2  &kp SPACE    &kp RET  &mo 3  &kp RALT
+            >;
+        };
+
+        // Layer 2: Lower (numbers, media, arrows)
         lower_layer {
             bindings = <
 &kp TAB    &kp N1  &kp N2  &kp N3        &kp N4      &kp N5          &kp N6    &kp N7    &kp N8    &kp N9     &kp N0  &kp BSPC
@@ -105,6 +120,7 @@
             >;
         };
 
+        // Layer 3: Raise (symbols, BT)
         raise_layer {
             bindings = <
 &kp TAB    &kp EXCL  &kp AT  &kp HASH    &kp DLLR    &kp PRCNT     &kp CARET  &kp AMPS   &kp STAR  &kp LPAR  &kp RPAR  &kp BSPC
@@ -114,39 +130,23 @@
             >;
         };
 
+        // Layer 4: Adjust (mouse, F-keys, studio) — activates when Lower+Raise held
         adjust_layer {
-            // Мышиные клавиши, макросы, Studio Unlock
-
             bindings = <
-&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 4        &mkp MB1        &mkp MB2        &none         &none            &none  &none
+&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 5        &mkp MB1        &mkp MB2        &none         &none            &none  &none
 &kp F1  &kp F2  &kp F3  &kp F4    &kp F5           &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
 &kp F7  &kp F8  &kp F9  &kp F10   &kp F11          &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
                         &kp LGUI  &trans           &kp SPACE    &kp RET         &trans          &kp RALT
             >;
         };
 
+        // Layer 5: RGB controls
         rgb_layer {
-            // Подсветка RGB. Возврат на нулевой слой (to 0), чтобы выйти из режима
-
             bindings = <
 &rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &studio_unlock
 &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans
 &rgb_ug RGB_EFR  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_SPD  &rgb_ug RGB_SPI  &trans    &trans  &trans  &trans  &trans  &trans  &trans
                                                    &trans           &trans           &trans    &trans  &trans  &trans
-            >;
-        };
-
-        colemak_layer {
-            // Colemak-DH: альтернативный базовый слой
-            // Вход: LGUI + LOWER + RAISE + RALT (combo_colemak_on, &to 5)
-            // Выход: то же самое (combo_colemak_off, &to 0)
-            // MO1/MO2/conditional_layers работают поверх как на базовом слое
-
-            bindings = <
-&kp TAB    &kp Q  &kp W  &kp F     &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &kp BSPC
-&kp LSHFT  &kp A  &kp R  &kp S     &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
-&kp LCTRL  &kp X  &kp C  &kp D     &kp V  &kp Z        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &kp RALT
             >;
         };
     };
@@ -172,6 +172,21 @@
     layer_1 {
         layer-id = <1>;
         bindings = <
+            // Colemak-DH: оранжевый акцент
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+        >;
+    };
+
+    layer_2 {
+        layer-id = <2>;
+        bindings = <
             &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
             &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
             &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
@@ -183,8 +198,8 @@
         >;
     };
 
-    layer_2 {
-        layer-id = <2>;
+    layer_3 {
+        layer-id = <3>;
         bindings = <
             &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
             &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
@@ -197,8 +212,8 @@
         >;
     };
 
-    layer_3 {
-        layer-id = <3>;
+    layer_4 {
+        layer-id = <4>;
         bindings = <
             &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
             &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
@@ -211,32 +226,17 @@
         >;
     };
 
-    layer_4 {
-        layer-id = <4>;
-        bindings = <
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-        >;
-    };
-
     layer_5 {
         layer-id = <5>;
         bindings = <
-            // Colemak-DH: оранжевый акцент
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
         >;
     };
 };

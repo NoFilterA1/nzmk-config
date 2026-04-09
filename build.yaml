@@ -1,8 +1,8 @@
 ---
 include:
-  - board: nice_nano//zmk
+  - board: nice_nano/nrf52840
     shield: corne_left
-  - board: nice_nano//zmk
+  - board: nice_nano/nrf52840
     shield: corne_right
 
 snippets:

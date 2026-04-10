@@ -1,17 +1,11 @@
 manifest:
   remotes:
-    - name: nofilter
-      url-base: https://github.com/NoFilterA1
-    - name: mctechnology17
-      url-base: https://github.com/mctechnology17
+    - name: darknao
+      url-base: https://github.com/darknao
   projects:
     - name: zmk
-      remote: nofilter
-      repo-path: rgb-nzmk
+      remote: darknao
       revision: zmk-perkey_ug
       import: app/west.yml
-    - name: zmk-nice-oled
-      remote: mctechnology17
-      revision: main
   self:
     path: config

@@ -15,7 +15,7 @@
 - **6 fully-featured layers** with per-key RGB color indicators
 - **Smart layer toggling** — Colemak-DH accessible without disrupting other layers
 - **Conditional layers** — hold two buttons to unlock special functions
-- **Game-ready macros** — Tap Dance, Mod-morph, combo-activated shortcuts
+- **Игровой макрос** — двойное нажатие F3 на слое Adjust выполняет `F3↓ D F3↑`; Shift+Backspace = Delete
 - **Complete mouse control** — move, click, scroll on dedicated layer
 - **RGB customization** — 6 distinct color schemes, brightness/hue controls
 
@@ -26,10 +26,10 @@
 | # | Layer | Activation | RGB Color | Purpose |
 |---|-------|-----------|-----------|---------|
 | **0** | 🟣 QWERTY | Default | `#100010` Dark Purple | Typing base layout |
-| **1** | 🟠 Colemak-DH | 4-key combo | `#FF6600` Orange | Ergonomic layout (Dvorak alternative) |
+| **1** | 🟠 Colemak-DH | 4-key combo | `#FF6600` Orange | Ergonomic layout (alternative to QWERTY) |
 | **2** | 🟢 Lower | Hold `MO2` | `#00FF00` Green | Numbers, media, arrows |
 | **3** | 🔵 Raise | Hold `MO3` | `#0000FF` Blue | Symbols, Bluetooth |
-| **4** | 🟣 Adjust | `MO2` + `MO3` | `#FF4400 / #00AAFF` Mixed | Mouse, F-keys, studio unlock |
+| **4** | 🟣 Adjust | `MO2` + `MO3` | `#FF4400` (left) / `#00AAFF` (right) | Mouse, F-keys, RGB/display, ZMK Studio unlock |
 | **5** | 🟣 RGB | `TO 5` | `#FF00FF` Magenta | RGB brightness/hue/effect controls |
 
 ---
@@ -42,7 +42,7 @@
 
 ![Layer 0](https://img.shields.io/badge/Layer-0%20QWERTY-100010?style=for-the-badge&logoColor=white&label=Default%20Base&labelColor=1a1a1a)
 
-| TAB | Q | W | E | R | T | — | Y | U | I | O | P | BSPC |
+| TAB | Q | W | E | R | T | — | Y | U | I | O | P | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | **A** | **S** | **D** | **F** | **G** | — | **H** | **J** | **K** | **L** | **;** | **'** |
 | **LCTRL** | **Z** | **X** | **C** | **V** | **B** | — | **N** | **M** | **,** | **.** | **/** | **ESC** |
@@ -58,7 +58,7 @@
 
 ![Layer 1](https://img.shields.io/badge/Activation-4--Key%20Combo-FF6600?style=for-the-badge&logo=lightning&logoColor=white&label=LGUI%20%2B%20MO2%20%2B%20MO3%20%2B%20RALT&labelColor=1a1a1a)
 
-| TAB | Q | W | F | P | B | — | J | L | U | Y | ; | BSPC |
+| TAB | Q | W | F | P | B | — | J | L | U | Y | ; | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | **A** | **R** | **S** | **T** | **G** | — | **M** | **N** | **E** | **I** | **O** | **'** |
 | **LCTRL** | **X** | **C** | **D** | **V** | **Z** | — | **K** | **H** | **,** | **.** | **/** | **ESC** |
@@ -67,6 +67,7 @@
 </div>
 
 > **✨ Key difference**: Colemak-DH is optimized for finger rolling and reduces same-hand bigrams.
+> Нижний ряд слева: `X C D V Z` (вариант Angle).
 
 > **🚀 Important:** Switching to L1 does NOT break your access to L2/L3/L4!
 > - `MO2` (LOWER) works **on top of** L1 base, just like L0
@@ -81,7 +82,7 @@
 
 ![Layer 2](https://img.shields.io/badge/Activation-Hold%20MO2-00FF00?style=for-the-badge&logoColor=white&label=Any%20Base%20Layer&labelColor=1a1a1a)
 
-| TAB | 1 | 2 | 3 | 4 | 5 | — | 6 | 7 | 8 | 9 | 0 | BSPC |
+| TAB | 1 | 2 | 3 | 4 | 5 | — | 6 | 7 | 8 | 9 | 0 | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | — | — | **◀◀** | **▶ ⏸** | **▶▶** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **LCTRL** | — | — | **🔊-** | **🔇** | **🔊+** | — | — | — | — | — | — | — |
@@ -103,7 +104,7 @@
 
 ![Layer 3](https://img.shields.io/badge/Activation-Hold%20MO3-0000FF?style=for-the-badge&logoColor=white&label=Any%20Base%20Layer&labelColor=1a1a1a)
 
-| TAB | ! | @ | # | $ | % | — | ^ | & | * | ( | ) | BSPC |
+| TAB | ! | @ | # | $ | % | — | ^ | & | * | ( | ) | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | — | — | — | — | — | — | **-** | **=** | **[** | **]** | **\\** | **`** |
 | **LCTRL** | — | — | **📱◀** | **📱✕** | **📱▶** | — | **_** | **+** | **{** | **}** | **\|** | **~** |
@@ -111,8 +112,8 @@
 
 **Features:**
 - All punctuation symbols
-- Bluetooth management: Previous / Clear all / Next device
-- Shift variants: `-` / `=` / `[` / `]` / `\` `` ` `` (using Shift)
+- Bluetooth management: Previous profile / Clear **current** profile / Next profile
+- Right side: `- = [ ] \ `` ` and their Shift variants `_ + { } | ~` on the row below
 
 </div>
 
@@ -124,9 +125,9 @@
 
 ![Layer 4](https://img.shields.io/badge/Activation-Conditional-FF4400?style=for-the-badge&logoColor=white&label=MO2%20%2B%20MO3&labelColor=1a1a1a)
 
-| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | — |
+| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | **EP** |
 |---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
-| **F1** | **F2** | **F3** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
+| **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | — | **⬇** | **⬆** | — | — | **UNLOCK** |
 | | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **RALT** | | | |
 
@@ -135,10 +136,10 @@
 - **Mouse movement**: ← ↓ ↑ → (move cursor)
 - **Mouse buttons**: 🖱L (left click), 🖱R (right click)
 - **Scroll**: ⬆ ⬇ (vertical scrolling)
-- **RGB_OR_EP** (top-left): 
-  - Normal: toggle RGB effects
-  - `RALT +` click: toggle display power
-- **STUDIO_UNLOCK**: Zephyr Studio debugging
+- **RGB** (top row, 5th key): toggle RGB on/off
+- **EP** (top row, rightmost key): toggle external power (LEDs **and** OLED share it)
+- **F3**: tap = `F3`, double tap = macro `F3↓ D F3↑`
+- **UNLOCK**: unlock ZMK Studio (live keymap editor)
 
 </div>
 
@@ -163,7 +164,7 @@
 - **🎨OFF** — Toggle RGB on/off
 - **◀◀ / ▶▶** — Previous / Next effect
 - **⚡-/+** — Effect speed down / up
-- **L0** — Return to default layer
+- **L0** — Return to QWERTY (note: if you were on Colemak, you return to QWERTY)
 
 </div>
 
@@ -179,7 +180,7 @@
 
 ```zmk
 combo_colemak_on {
-    key-positions = <36 37 40 41>;  // LGUI, MO2, SPACE, MO3 area
+    key-positions = <36 37 40 41>;  // LGUI, MO2, MO3, RALT
     bindings = <&to 1>;             // Jump to Colemak
     layers = <0>;                   // Only on QWERTY
     timeout-ms = <50>;
@@ -194,10 +195,9 @@ combo_colemak_off {
 ```
 
 **How it works:**
-- Press all 4 keys (`LGUI` + `MO2` + `SPACE` + `MO3`) **simultaneously**
+- Press all 4 keys (`LGUI` + `MO2` + `MO3` + `RALT`) **simultaneously** (within 50 ms)
 - On QWERTY (L0) → switches to Colemak (L1)
 - On Colemak (L1) → switches back to QWERTY (L0)
-- Takes <50ms, no visible lag
 
 **Why it's powerful:**
 - **No accidental triggers** — 4 keys pressed at once is deliberate
@@ -248,11 +248,11 @@ bspc_del: backspace_delete {
 };
 ```
 
-**Behavior:**
+**Behavior:** (used on the top-right key of layers 0–3)
 - Normal tap: `Backspace`
 - `Shift` + tap: `Delete` (deletes character to the right)
 
-**No QMK-style hacks** — clean, built-in behavior.
+
 
 ---
 
@@ -284,7 +284,7 @@ td_f3_m1: tap_dance_f3_m1 {
 - Single tap: `F3` (activates a menu/mode in-game)
 - Double tap (within 180ms): Macro `F3↓ D F3↑` (performs special action while holding F3)
 
-**Real-world example:** In a game, single F3 opens debug menu, double F3 does power-move combo.
+Bound to the **F3** key on the Adjust layer (layer 4).
 
 ---
 
@@ -308,9 +308,9 @@ td_f3_m1: tap_dance_f3_m1 {
 &msc SCRL_DOWN   // Scroll down
 ```
 
-**Activation:** Hold `MO2` + `MO3` simultaneously.
+**Activation:** Hold `MO2` + `MO3` simultaneously. Move = keys under `H J K L`, buttons = top row (`Y` `U`), scroll = bottom row (`M` `,`).
 
-**Speed control:** Defined at top of keymap:
+**Speed control:** defined at the top of `config/corne.keymap`:
 ```zmk
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1200  // Cursor speed
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 10    // Scroll speed
@@ -318,24 +318,10 @@ td_f3_m1: tap_dance_f3_m1 {
 
 ---
 
-### 6️⃣ RGB Toggle vs Display Power (Mod-Morph)
+### 6️⃣ RGB and Power Toggles (Adjust layer)
 
-**The Problem:** You want to control both keyboard LEDs AND display power, but only one key for both.
-
-**The Solution:**
-
-```zmk
-rgb_or_ep: rgb_or_ext_power {
-    compatible = "zmk,behavior-mod-morph";
-    bindings = <&rgb_ug RGB_TOG>,      // Normal: toggle RGB
-               <&ext_power EP_TOG>;     // With RALT: toggle display
-    mods = <(MOD_RALT)>;               // Trigger with right Alt
-};
-```
-
-**Behavior on Adjust layer:**
-- Press key: Toggle keyboard RGB effects on/off
-- `RALT` + press key: Toggle display power (sleep/wake screen)
+- Top row, 5th key: `&rgb_ug RGB_TOG` — RGB on/off (RGB is off after power-up)
+- Top row, rightmost key: `&ext_power EP_TOG` — switches external power (LEDs **and** OLED)
 
 ---
 
@@ -345,17 +331,18 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 
 **RGB color mapping:**
 - **L0 (QWERTY)** → `#100010` Dark Purple (base)
-- **L1 (Colemak)** → `#FF6600` Orange (clearly different!)
+- **L1 (Colemak)** → `#FF6600` Orange
 - **L2 (Lower)** → `#00FF00` Green (bright indicator)
 - **L3 (Raise)** → `#0000FF` Blue
-- **L4 (Adjust)** → `#FF4400` + `#00AAFF` (alternating rows, mixed)
+- **L4 (Adjust)** → `#FF4400` (left half) + `#00AAFF` (right half)
 - **L5 (RGB)** → `#FF00FF` Magenta
 
 **Why this matters:**
 - No mental load checking layer status — look at keyboard color
 - Physical feedback that you switched layers
 - Useful in the dark or while gaming
-- Can be customized via Layer 5 (RGB controls)
+- **RGB is OFF after power-up.** Turn it on with the RGB key on the Adjust layer (layer 4, 5th key of the top row)
+- Effects/brightness can be changed on Layer 5 (RGB controls); layer colors themselves are set in `config/corne.keymap`
 
 ---
 
@@ -375,7 +362,7 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 │  Layer 3 (Raise)                        │
 │  ██████████████████████████████████████ │  #0000FF Blue
 │                                          │
-│  Layer 4 (Adjust) — alternating rows   │
+│  Layer 4 (Adjust) — left / right halves│
 │  ██████████████████████████████████████ │  #FF4400 Orange
 │  ██████████████████████████████████████ │  #00AAFF Sky Blue
 │                                          │
@@ -388,22 +375,26 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 
 ## 🔧 Build & Flash
 
+**Automatic (recommended):** every push to GitHub starts the *Build ZMK* workflow
+(`.github/workflows/build.yml`). It reads `build.yaml` and builds both halves
+(`corne_left` + `nice_oled` with ZMK Studio, `corne_right` + `nice_oled`).
+Download the `firmware` artifact from the *Actions* tab.
+
+**Flash:** double-tap reset on the nice!nano → it appears as a USB drive →
+copy the matching `.uf2` (`corne_left…` / `corne_right…`) onto it. Repeat for the second half.
+
+**Local build** (requires a ZMK west workspace):
+
 ```bash
-# Clone this repo (or it's already in your West workspace)
-west update
-
-# Build firmware
-west build -b nice_nano_v2 -- -DSHIELD=corne_left
-
-# Flash left half (run once per update)
-west flash
-
-# Then switch to right half and repeat:
-west build -b nice_nano_v2 -- -DSHIELD=corne_right
-west flash
+west init -l config && west update
+west build -s zmk/app -d build/left -b nice_nano/nrf52840 -S studio-rpc-usb-uart -- \
+  -DSHIELD="corne_left nice_oled" -DZMK_CONFIG="$PWD/config"
+west build -s zmk/app -d build/right -b nice_nano/nrf52840 -- \
+  -DSHIELD="corne_right nice_oled" -DZMK_CONFIG="$PWD/config"
 ```
 
-**Note:** Uses GitHub Actions for automated builds. Check `.github/workflows/` for CI.
+Dependencies (`config/west.yml`) are pinned to exact commits of the
+`darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB) and `zmk-nice-oled`.
 
 ---
 
@@ -415,17 +406,17 @@ west flash
    - Your muscle memory for L2/L3/L4 transfers perfectly
 
 2. **Use Adjust for everything:**
-   - Mouse is slow? Speed it up in Layer 5 (RGB Controls → RGB_SPD)
+   - Mouse speed is set by `ZMK_POINTING_DEFAULT_MOVE_VAL` at the top of the keymap
    - Need a function key? Adjust layer has F1–F12
 
 3. **Game macros:**
-   - Tap Dance on Adjust layer is perfect for game combos
+   - Double-tap F3 on the Adjust layer runs the `F3↓ D F3↑` macro
    - Add more macros via new `macros {}` sections in keymap
 
 4. **RGB customization:**
-   - Press `TO 5` to enter RGB Controls layer
+   - On the Adjust layer press the `L5` key to enter RGB Controls
    - Use `RGB_HUI` to cycle hue, `RGB_SAI` for saturation
-   - Press key at top-left to return to base layer
+   - Press `L0` (top row, 5th key) to return to QWERTY
 
 ---
 

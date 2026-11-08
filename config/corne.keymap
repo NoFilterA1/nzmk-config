@@ -14,6 +14,7 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/ext_power.h>
+#include <behaviors/display_toggle.dtsi>
 
 / {
     // Ебашим макрос, который был зашит в QMK: F3 + D
@@ -134,7 +135,7 @@
         // Layer 4: Adjust (mouse, F-keys, studio) — activates when Lower+Raise held
         adjust_layer {
             bindings = <
-&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 5   &mkp MB1        &mkp MB2        &none         &none            &none  &none
+&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 5   &mkp MB1        &mkp MB2        &none         &none            &none  &dsptog
 &kp F1  &kp F2  &td_f3_m1  &kp F4    &kp F5           &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
 &kp F7  &kp F8  &kp F9  &kp F10   &kp F11          &kp F12      &none           &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
                         &kp LGUI  &trans           &kp SPACE    &kp RET         &trans          &kp RALT

@@ -125,7 +125,7 @@
 
 ![Layer 4](https://img.shields.io/badge/Activation-Conditional-FF4400?style=for-the-badge&logoColor=white&label=MO2%20%2B%20MO3&labelColor=1a1a1a)
 
-| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | — |
+| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | **DSP** |
 |---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
 | **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | — | **⬇** | **⬆** | — | — | **UNLOCK** |
@@ -137,6 +137,7 @@
 - **Mouse buttons**: 🖱L (left click), 🖱R (right click)
 - **Scroll**: ⬆ ⬇ (vertical scrolling)
 - **RGB** (top row, 5th key): toggle RGB on/off
+- **DSP** (top row, rightmost key): toggle the OLED on/off (`&dsptog`, see below)
 - **F3**: tap = `F3`, double tap = macro `F3↓ D F3↑`
 - **UNLOCK**: unlock ZMK Studio (live keymap editor)
 
@@ -317,11 +318,34 @@ Bound to the **F3** key on the Adjust layer (layer 4).
 
 ---
 
-### 6️⃣ RGB Toggle (Adjust layer)
+### 6️⃣ RGB Toggle and Display Toggle (Adjust layer)
 
-- Top row, 5th key: `&rgb_ug RGB_TOG` — RGB on/off (RGB is off after power-up)
+- Top row, 5th key: `&rgb_ug RGB_TOG` — RGB on/off (RGB is **off** after power-up)
+- Top row, rightmost key: `&dsptog` — blanks / unblanks the OLED on the half where it runs
+  (both halves react, each keeps its own state). It sends the OLED's own "display off" command.
+  The source is in `config/src/behavior_display_toggle.c` (a small Zephyr module that lives in this repo).
 - There is deliberately **no** external-power (`EP_TOG`) key: its state is saved in flash, and a saved
-  "off" kills the OLED at every boot. If the screen stays dark, flash `settings_reset` and then the firmware.
+  "off" cuts the OLED power right after boot (the screen blinks and dies). If the screens stay dark,
+  flash `settings_reset.uf2` first and then the normal firmware.
+
+---
+
+### 8️⃣ OLED Screens (nice_oled)
+
+| Half | Widget |
+|------|--------|
+| **Left** (central) | Responsive Bongo Cat (reacts to every key press), modifier symbols, BT profile number |
+| **Right** (peripheral) | Gem animation, connection icon, battery |
+
+- The small digit on the left screen is the **Bluetooth profile number (1–5)**, not the layer. It changes only
+  when you switch profiles (`BT_NXT`/`BT_PRV` on the Raise layer). The current layer is shown by the RGB color.
+- The screens use the `nice_oled` shield, taken from my fork
+  [`NoFilterA1/zmk-nice-oled`](https://github.com/NoFilterA1/zmk-nice-oled) (branch `nzmk`). It is
+  [`tokyo2006`'s LVGL 9 port](https://github.com/mctechnology17/zmk-nice-oled/pull/37) of
+  [`mctechnology17/zmk-nice-oled`](https://github.com/mctechnology17/zmk-nice-oled) plus two small fixes:
+  the `zmk_endpoints_selected()` name used by the `darknao/zmk` fork, and the responsive Bongo Cat frames.
+- Widget positions are Kconfig options (`CONFIG_NICE_OLED_WIDGET_*_CUSTOM_X/Y` in `config/corne.conf`).
+  The module was designed for a different canvas size, so some positions are tuned by hand.
 
 ---
 
@@ -377,24 +401,44 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 
 **Automatic (recommended):** every push to GitHub starts the *Build ZMK* workflow
 (`.github/workflows/build.yml`). It reads `build.yaml` and builds both halves
-(`corne_left` with ZMK Studio, `corne_right`). The OLED uses the standard ZMK status screen (layer, battery, connection); the `nice_oled` module is not used because it targets LVGL 8 and does not build on the Zephyr 4.1 fork.
+(`corne_left nice_oled` with ZMK Studio, `corne_right nice_oled`).
 Download the `firmware` artifact from the *Actions* tab.
 
 **Flash:** double-tap reset on the nice!nano → it appears as a USB drive →
 copy the matching `.uf2` (`corne_left…` / `corne_right…`) onto it. Repeat for the second half.
 
-**Local build** (requires a ZMK west workspace):
+**Local build** (Docker, same image as CI; about 2 minutes after the first download):
 
 ```bash
-west init -l config && west update
-west build -s zmk/app -d build/left -b nice_nano/nrf52840 -S studio-rpc-usb-uart -- \
-  -DSHIELD=corne_left -DZMK_CONFIG="$PWD/config"
-west build -s zmk/app -d build/right -b nice_nano/nrf52840 -- \
-  -DSHIELD=corne_right -DZMK_CONFIG="$PWD/config"
+mkdir ws && cp -r config ws/config && cd ws
+docker run --rm -u $(id -u):$(id -g) -e HOME=/tmp -v "$PWD":/ws zmkfirmware/zmk-build-arm:stable bash -c '
+  cd /ws && west init -l config && west update && west zephyr-export
+  west build -p -s zmk/app -d out/left  -b nice_nano/nrf52840 -S studio-rpc-usb-uart -- \
+    -DSHIELD="corne_left nice_oled" -DZMK_CONFIG=/ws/config -DCONFIG_ZMK_STUDIO=y
+  west build -p -s zmk/app -d out/right -b nice_nano/nrf52840 -- \
+    -DSHIELD="corne_right nice_oled" -DZMK_CONFIG=/ws/config'
+# result: out/left/zephyr/zmk.uf2, out/right/zephyr/zmk.uf2
 ```
 
-Dependencies (`config/west.yml`) are pinned to exact commits of the
-`darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB).
+Use `-p` (pristine) every time: without it west silently reuses the old CMake cache and ignores a changed shield.
+
+**Debug build** (left half over USB): add `-S zmk-usb-logging` (and e.g. `-DCONFIG_ZMK_LOG_LEVEL_DBG=y`), then read `/dev/ttyACM*`
+(115200 baud). This is how the "dark OLED" problem was found.
+
+**Reset saved settings:** build with `-DSHIELD=settings_reset` (empty `ZMK_CONFIG` dir) and flash that `.uf2` before the normal one.
+It clears saved state such as external power and Bluetooth bonds (re-pair the keyboard afterwards).
+
+Dependencies (`config/west.yml`) are pinned to exact commits: the `darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB, Zephyr 4.1 / LVGL 9)
+and the `nice_oled` fork described above.
+
+---
+
+## 🩺 Known issues
+
+- **Bluetooth log error on layer change:** `bt_l2cap: Expecting 1 ref, got 0` appears in the debug log every time the central sends the layer state
+  to the right half (the per-key RGB fork syncs layers). Not fixed; suspected to be related to rare freezes after idle.
+- **Deep sleep is disabled** (`CONFIG_ZMK_SLEEP=n`) while that is investigated.
+- **Third-party code:** the `nice_oled` port is not tested by its author on this OLED layout; positions may need further tuning.
 
 ---
 

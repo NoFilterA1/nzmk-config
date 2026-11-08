@@ -1,0 +1,10 @@
+/ {
+    behaviors {
+        // Behavior can be invoked on peripherals, so name must be <= 8 characters.
+        dsptog: dsptog {
+            compatible = "zmk,behavior-display-toggle";
+            #binding-cells = <0>;
+            display-name = "Display Toggle";
+        };
+    };
+};

@@ -1,0 +1,6 @@
+name: nzmk-display-toggle
+build:
+  cmake: .
+  kconfig: Kconfig
+  settings:
+    dts_root: .

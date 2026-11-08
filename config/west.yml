@@ -2,10 +2,16 @@ manifest:
   remotes:
     - name: darknao
       url-base: https://github.com/darknao
+    - name: nofiltera1
+      url-base: https://github.com/NoFilterA1
   projects:
     - name: zmk
       remote: darknao
       revision: 453d2d8536106c1b5ba2ae68d6a2267965c16935  # zmk-perkey_ug
       import: app/west.yml
+    # fork of tokyo2006/zmk-nice-oled (LVGL 9 port of mctechnology17/zmk-nice-oled) with 2 small fixes
+    - name: zmk-nice-oled
+      remote: nofiltera1
+      revision: dbce7b8e0c5f7713b101fe64968f59cda840fe5b  # branch nzmk
   self:
     path: config

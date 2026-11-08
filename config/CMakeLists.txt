@@ -1,0 +1,6 @@
+# Модуль в самом репозитории конфигурации: поведение &dsptog (вкл/выкл экран)
+if(CONFIG_ZMK_DISPLAY)
+  zephyr_library()
+  zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+  zephyr_library_sources(src/behavior_display_toggle.c)
+endif()

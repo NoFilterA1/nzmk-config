@@ -1,0 +1,5 @@
+description: Toggle the display on/off (blanking)
+
+compatible: "zmk,behavior-display-toggle"
+
+include: zero_param.yaml

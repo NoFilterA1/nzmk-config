@@ -125,7 +125,7 @@
 
 ![Layer 4](https://img.shields.io/badge/Activation-Conditional-FF4400?style=for-the-badge&logoColor=white&label=MO2%20%2B%20MO3&labelColor=1a1a1a)
 
-| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | **EP** |
+| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | — |
 |---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
 | **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | — | **⬇** | **⬆** | — | — | **UNLOCK** |
@@ -137,7 +137,6 @@
 - **Mouse buttons**: 🖱L (left click), 🖱R (right click)
 - **Scroll**: ⬆ ⬇ (vertical scrolling)
 - **RGB** (top row, 5th key): toggle RGB on/off
-- **EP** (top row, rightmost key): toggle external power (LEDs **and** OLED share it)
 - **F3**: tap = `F3`, double tap = macro `F3↓ D F3↑`
 - **UNLOCK**: unlock ZMK Studio (live keymap editor)
 
@@ -318,10 +317,11 @@ Bound to the **F3** key on the Adjust layer (layer 4).
 
 ---
 
-### 6️⃣ RGB and Power Toggles (Adjust layer)
+### 6️⃣ RGB Toggle (Adjust layer)
 
 - Top row, 5th key: `&rgb_ug RGB_TOG` — RGB on/off (RGB is off after power-up)
-- Top row, rightmost key: `&ext_power EP_TOG` — switches external power (LEDs **and** OLED)
+- There is deliberately **no** external-power (`EP_TOG`) key: its state is saved in flash, and a saved
+  "off" kills the OLED at every boot. If the screen stays dark, flash `settings_reset` and then the firmware.
 
 ---
 

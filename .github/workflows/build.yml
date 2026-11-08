@@ -7,5 +7,37 @@ on:
 
 jobs:
   build:
-    # Официальный сборщик ZMK: читает build.yaml и config/west.yml
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize ZMK workspace
+        run: |
+          west init -l config
+          west update --fetch-opt=--filter=tree:0
+          west zephyr-export
+
+      # Левая половина (central): ZMK Studio работает только здесь
+      - name: Build left half
+        run: |
+          west build -p -s zmk/app -d build/left -b nice_nano/nrf52840 -S studio-rpc-usb-uart -- \
+            -DSHIELD="corne_left nice_oled" -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DCONFIG_ZMK_STUDIO=y
+
+      - name: Build right half
+        run: |
+          west build -p -s zmk/app -d build/right -b nice_nano/nrf52840 -- \
+            -DSHIELD="corne_right nice_oled" -DZMK_CONFIG="$GITHUB_WORKSPACE/config"
+
+      - name: Collect firmware
+        run: |
+          mkdir -p firmware
+          cp build/left/zephyr/zmk.uf2 firmware/corne_left_nice_oled.uf2
+          cp build/right/zephyr/zmk.uf2 firmware/corne_right_nice_oled.uf2
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: firmware/*.uf2

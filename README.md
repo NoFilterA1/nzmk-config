@@ -400,8 +400,10 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 ## 🔧 Build & Flash
 
 **Automatic (recommended):** every push to GitHub starts the *Build ZMK* workflow
-(`.github/workflows/build.yml`). It reads `build.yaml` and builds both halves
-(`corne_left nice_oled` with ZMK Studio, `corne_right nice_oled`).
+(`.github/workflows/build.yml`). It builds both halves
+(`corne_left nice_oled` with ZMK Studio, `corne_right nice_oled`) in the `zmkfirmware/zmk-build-arm:stable` image.
+(The official reusable ZMK workflow is not used: it rejects `nice_nano/nrf52840` and demands a `//zmk` board variant that the
+`darknao/zmk` fork does not have.)
 Download the `firmware` artifact from the *Actions* tab.
 
 **Flash:** double-tap reset on the nice!nano → it appears as a USB drive →

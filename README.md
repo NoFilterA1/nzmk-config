@@ -377,7 +377,7 @@ The keyboard shows **which layer you're on** by the color of the entire keyboard
 
 **Automatic (recommended):** every push to GitHub starts the *Build ZMK* workflow
 (`.github/workflows/build.yml`). It reads `build.yaml` and builds both halves
-(`corne_left` + `nice_oled` with ZMK Studio, `corne_right` + `nice_oled`).
+(`corne_left` with ZMK Studio, `corne_right`). The OLED uses the standard ZMK status screen (layer, battery, connection); the `nice_oled` module is not used because it targets LVGL 8 and does not build on the Zephyr 4.1 fork.
 Download the `firmware` artifact from the *Actions* tab.
 
 **Flash:** double-tap reset on the nice!nano → it appears as a USB drive →
@@ -388,13 +388,13 @@ copy the matching `.uf2` (`corne_left…` / `corne_right…`) onto it. Repeat fo
 ```bash
 west init -l config && west update
 west build -s zmk/app -d build/left -b nice_nano/nrf52840 -S studio-rpc-usb-uart -- \
-  -DSHIELD="corne_left nice_oled" -DZMK_CONFIG="$PWD/config"
+  -DSHIELD=corne_left -DZMK_CONFIG="$PWD/config"
 west build -s zmk/app -d build/right -b nice_nano/nrf52840 -- \
-  -DSHIELD="corne_right nice_oled" -DZMK_CONFIG="$PWD/config"
+  -DSHIELD=corne_right -DZMK_CONFIG="$PWD/config"
 ```
 
 Dependencies (`config/west.yml`) are pinned to exact commits of the
-`darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB) and `zmk-nice-oled`.
+`darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB).
 
 ---
 

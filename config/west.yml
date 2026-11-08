@@ -2,15 +2,10 @@ manifest:
   remotes:
     - name: darknao
       url-base: https://github.com/darknao
-    - name: mctechnology17
-      url-base: https://github.com/mctechnology17
   projects:
     - name: zmk
       remote: darknao
       revision: 453d2d8536106c1b5ba2ae68d6a2267965c16935  # zmk-perkey_ug
       import: app/west.yml
-    - name: zmk-nice-oled
-      remote: mctechnology17
-      revision: 46f824abb2bd41f1287c5c68abd14122af6042a3  # main
   self:
     path: config

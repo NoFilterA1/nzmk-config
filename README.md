@@ -84,8 +84,8 @@
 
 | TAB | 1 | 2 | 3 | 4 | 5 | — | 6 | 7 | 8 | 9 | 0 | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
-| **LSHIFT** | — | — | **◀◀** | **▶ ⏸** | **▶▶** | — | **←** | **↓** | **↑** | **→** | — | — |
-| **LCTRL** | — | — | **🔊-** | **🔇** | **🔊+** | — | — | — | — | — | — | — |
+| **LSHIFT** | — | — | **◀◀ / Del** | **▶ ⏸** | **▶▶** | — | **←** | **↓** | **↑** | **→** | — | — |
+| **LCTRL** | — | — | **🔊-** | **🔇** | **🔊+** | — | **Home / PgUp** | **End / PgDn** | — | — | — | **CAPS** |
 | | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
@@ -93,6 +93,9 @@
 - Media controls: Previous/Play/Next
 - Arrow keys (vim-style: ←↓↑→)
 - Volume control: Decrease/Mute/Increase
+- Navigation (right hand, `N` / `M`): `Home` / `End`; with `Ctrl` held: `PgUp` / `PgDn` (Ctrl is not sent to the PC)
+- `D`: previous track; with `Ctrl` held: `Delete`
+- **Caps Lock** on the bottom-right corner (the `Esc` position)
 
 </div>
 
@@ -107,13 +110,14 @@
 | TAB | ! | @ | # | $ | % | — | ^ | & | * | ( | ) | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | — | — | — | — | — | — | **-** | **=** | **[** | **]** | **\\** | **`** |
-| **LCTRL** | — | — | **📱◀** | **📱✕** | **📱▶** | — | **_** | **+** | **{** | **}** | **\|** | **~** |
+| **LCTRL** | — | — | **📱◀** | **📱✕** | **📱▶** | — | **_** | **+** | **{** | **}** | **\|** | **CAPS WORD** |
 | | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
 - All punctuation symbols
 - Bluetooth management: Previous profile / Clear **current** profile / Next profile
-- Right side: `- = [ ] \ `` ` and their Shift variants `_ + { } | ~` on the row below
+- Right side: `- = [ ] \ `` ` and their Shift variants `_ + { } |` on the row below (`~` is `Shift` + `` ` ``)
+- **Caps Word** on the bottom-right corner (the `Esc` position): capitalises one word and turns itself off
 
 </div>
 
@@ -128,13 +132,13 @@
 | — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | **DSP** |
 |---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
 | **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
-| **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | — | **⬇** | **⬆** | — | — | **UNLOCK** |
+| **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | **🖱M** | **⬇** | **⬆** | — | — | **UNLOCK** |
 | | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
 - **F1–F12 keys** on left side
 - **Mouse movement**: ← ↓ ↑ → (move cursor)
-- **Mouse buttons**: 🖱L (left click), 🖱R (right click)
+- **Mouse buttons**: 🖱L (left click), 🖱R (right click), 🖱M (middle / wheel click, on `N`)
 - **Scroll**: ⬆ ⬇ (vertical scrolling)
 - **RGB** (top row, 5th key): toggle RGB on/off
 - **DSP** (top row, rightmost key): toggle the OLED on/off (`&dsptog`, see below)

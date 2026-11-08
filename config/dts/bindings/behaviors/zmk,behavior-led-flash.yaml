@@ -1,0 +1,5 @@
+description: Short dim flash of the LED strip (0 = red, 1 = green)
+
+compatible: "zmk,behavior-led-flash"
+
+include: one_param.yaml

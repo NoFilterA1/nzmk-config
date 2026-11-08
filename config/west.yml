@@ -9,9 +9,9 @@ manifest:
       remote: darknao
       revision: 453d2d8536106c1b5ba2ae68d6a2267965c16935  # zmk-perkey_ug
       import: app/west.yml
-    # fork of tokyo2006/zmk-nice-oled (LVGL 9 port of mctechnology17/zmk-nice-oled) with 2 small fixes
+    # fork of tokyo2006/zmk-nice-oled (LVGL 9 port of mctechnology17/zmk-nice-oled) with fixes + custom left/right screens
     - name: zmk-nice-oled
       remote: nofiltera1
-      revision: dbce7b8e0c5f7713b101fe64968f59cda840fe5b  # branch nzmk
+      revision: d2f662a6dca38ab1f75f4c03f66725c1913c5d7e  # branch nzmk
   self:
     path: config

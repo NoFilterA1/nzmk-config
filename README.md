@@ -15,7 +15,7 @@
 - **6 fully-featured layers** with per-key RGB color indicators
 - **Smart layer toggling** — Colemak-DH accessible without disrupting other layers
 - **Conditional layers** — hold two buttons to unlock special functions
-- **Игровой макрос** — двойное нажатие F3 на слое Adjust выполняет `F3↓ D F3↑`; Shift+Backspace = Delete
+- **Игровой макрос** — двойное нажатие F3 на слое Adjust выполняет `F3↓ D F3↑`; Shift+Ctrl+Backspace = Delete
 - **Complete mouse control** — move, click, scroll on dedicated layer
 - **RGB customization** — 6 distinct color schemes, brightness/hue controls
 
@@ -26,7 +26,7 @@
 | # | Layer | Activation | RGB Color | Purpose |
 |---|-------|-----------|-----------|---------|
 | **0** | 🟣 QWERTY | Default | `#100010` Dark Purple | Typing base layout |
-| **1** | 🟠 Colemak-DH | 4-key combo | `#FF6600` Orange | Ergonomic layout (alternative to QWERTY) |
+| **1** | 🟠 Colemak-DH | 4-corner combo (TAB+CTRL+BKSP+ESC) | `#FF6600` Orange | Ergonomic layout (alternative to QWERTY) |
 | **2** | 🟢 Lower | Hold `MO2` | `#00FF00` Green | Numbers, media, arrows |
 | **3** | 🔵 Raise | Hold `MO3` | `#0000FF` Blue | Symbols, Bluetooth |
 | **4** | 🟣 Adjust | `MO2` + `MO3` | `#FF4400` (left) / `#00AAFF` (right) | Mouse, F-keys, RGB/display, ZMK Studio unlock |
@@ -46,7 +46,7 @@
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | **A** | **S** | **D** | **F** | **G** | — | **H** | **J** | **K** | **L** | **;** | **'** |
 | **LCTRL** | **Z** | **X** | **C** | **V** | **B** | — | **N** | **M** | **,** | **.** | **/** | **ESC** |
-| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **RALT** | | | |
+| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **LALT** | | | |
 
 </div>
 
@@ -56,13 +56,13 @@
 
 <div align="center">
 
-![Layer 1](https://img.shields.io/badge/Activation-4--Key%20Combo-FF6600?style=for-the-badge&logo=lightning&logoColor=white&label=LGUI%20%2B%20MO2%20%2B%20MO3%20%2B%20RALT&labelColor=1a1a1a)
+![Layer 1](https://img.shields.io/badge/Activation-4--Key%20Combo-FF6600?style=for-the-badge&logo=lightning&logoColor=white&label=TAB%20%2B%20CTRL%20%2B%20BKSP%20%2B%20ESC&labelColor=1a1a1a)
 
 | TAB | Q | W | F | P | B | — | J | L | U | Y | ; | BSPC/DEL |
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | **A** | **R** | **S** | **T** | **G** | — | **M** | **N** | **E** | **I** | **O** | **'** |
 | **LCTRL** | **X** | **C** | **D** | **V** | **Z** | — | **K** | **H** | **,** | **.** | **/** | **ESC** |
-| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **RALT** | | | |
+| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **LALT** | | | |
 
 </div>
 
@@ -86,7 +86,7 @@
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | — | — | **◀◀** | **▶ ⏸** | **▶▶** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **LCTRL** | — | — | **🔊-** | **🔇** | **🔊+** | — | — | — | — | — | — | — |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **RALT** | | | |
+| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
 - Numpad on top row (1-0)
@@ -108,7 +108,7 @@
 |-----|---|---|---|---|---|----|---|---|---|---|---|------|
 | **LSHIFT** | — | — | — | — | — | — | **-** | **=** | **[** | **]** | **\\** | **`** |
 | **LCTRL** | — | — | **📱◀** | **📱✕** | **📱▶** | — | **_** | **+** | **{** | **}** | **\|** | **~** |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **RALT** | | | |
+| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
 - All punctuation symbols
@@ -129,7 +129,7 @@
 |---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
 | **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
 | **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | — | **⬇** | **⬆** | — | — | **UNLOCK** |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **RALT** | | | |
+| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
 
 **Features:**
 - **F1–F12 keys** on left side
@@ -176,33 +176,39 @@
 
 **The Problem:** Switching between QWERTY and Colemak usually requires a dedicated key. This wastes space on a 42-key board.
 
-**The Solution:** A 4-key combo on the bottom row:
+**The Solution:** a 4-key combo on the four corner keys, with a short LED flash as feedback:
 
 ```zmk
 combo_colemak_on {
-    key-positions = <36 37 40 41>;  // LGUI, MO2, MO3, RALT
-    bindings = <&to 1>;             // Jump to Colemak
+    key-positions = <0 11 24 35>;   // TAB, BACKSPACE, LCTRL, ESC
+    require-prior-idle-ms = <150>;  // keys do not wait for the combo while you are typing
+    bindings = <&col_on>;           // &to 1 + red flash
     layers = <0>;                   // Only on QWERTY
     timeout-ms = <50>;
 };
 
 combo_colemak_off {
-    key-positions = <36 37 40 41>;  // Same positions
-    bindings = <&to 0>;             // Jump back to QWERTY
+    key-positions = <0 11 24 35>;
+    require-prior-idle-ms = <150>;
+    bindings = <&col_off>;          // &to 0 + green flash
     layers = <1>;                   // Only on Colemak
     timeout-ms = <50>;
 };
 ```
 
 **How it works:**
-- Press all 4 keys (`LGUI` + `MO2` + `MO3` + `RALT`) **simultaneously** (within 50 ms)
-- On QWERTY (L0) → switches to Colemak (L1)
-- On Colemak (L1) → switches back to QWERTY (L0)
+- Press all 4 corner keys (`TAB` + `LCTRL` + `BACKSPACE` + `ESC`) **simultaneously** after a short pause in typing
+- On QWERTY (L0) → switches to Colemak (L1) and **all LEDs flash dim red** for ~0.1 s
+- On Colemak (L1) → switches back to QWERTY (L0) and the LEDs **flash dim green**
+- The flash works even when RGB is off (`&lflash`, source in `config/src/behavior_led_flash.c`)
+- Latency note: a key that is part of a combo waits up to 50 ms to see whether the others follow.
+  `require-prior-idle-ms=150` removes that wait while you are typing; only the first key after a pause (>150 ms) is delayed.
+  That is why the combo is on the corner keys and not on the thumb keys (layer keys must never wait).
 
 **Why it's powerful:**
 - **No accidental triggers** — 4 keys pressed at once is deliberate
 - **Doesn't break other layers** — Lower/Raise/Adjust still work on L1
-- **Stays out of the way** — uses bottom row modifiers you're already touching
+- **Stays out of the way** — the corner keys are not used for layers
 
 ---
 
@@ -233,26 +239,32 @@ conditional_layers {
 
 ---
 
-### 3️⃣ Mod-Morph: Shift+Backspace = Delete
+### 3️⃣ Mod-Morph: Shift+Ctrl+Backspace = Delete
 
-**The Problem:** You want Backspace to delete right (Delete key) when Shift is held, but you don't have space for both keys.
+**The Problem:** You want Backspace to delete right (Delete key) but you don't have space for both keys.
 
-**The Solution:**
+**The Solution:** two nested mod-morphs (Shift, then Ctrl):
 
 ```zmk
-bspc_del: backspace_delete {
+bspc_del_ctl: backspace_delete_ctrl {
     compatible = "zmk,behavior-mod-morph";
     #binding-cells = <0>;
     bindings = <&kp BSPC>, <&kp DEL>;
-    mods = <(MOD_LSFT|MOD_RSFT)>;  // Trigger on left or right Shift
+    mods = <(MOD_LCTL|MOD_RCTL)>;
+};
+
+bspc_del: backspace_delete {
+    compatible = "zmk,behavior-mod-morph";
+    #binding-cells = <0>;
+    bindings = <&kp BSPC>, <&bspc_del_ctl>;
+    mods = <(MOD_LSFT|MOD_RSFT)>;
 };
 ```
 
 **Behavior:** (used on the top-right key of layers 0–3)
 - Normal tap: `Backspace`
-- `Shift` + tap: `Delete` (deletes character to the right)
-
-
+- `Shift` + `Ctrl` + tap: `Delete` (deletes the character to the right, no modifiers sent)
+- `Shift` alone or `Ctrl` alone: plain `Backspace` (ZMK hides the morph modifiers)
 
 ---
 
@@ -332,20 +344,22 @@ Bound to the **F3** key on the Adjust layer (layer 4).
 
 ### 8️⃣ OLED Screens (nice_oled)
 
-| Half | Widget |
-|------|--------|
-| **Left** (central) | Responsive Bongo Cat (reacts to every key press), modifier symbols, BT profile number |
-| **Right** (peripheral) | Gem animation, connection icon, battery |
+| Half | What it shows |
+|------|---------------|
+| **Left** (central) | big base letter (`Q` / `C`), the **layer ladder** `QWE COL LOW RAI ADJ RGB` (base layer and active layer are inverted bars), modifiers `^ S A W` (Ctrl, Shift, Alt, Win), connection (`USB` or `BT` + 5 profile squares), battery icon with percent |
+| **Right** (peripheral) | **Bongo Cat** that reacts to the key presses of the right half |
 
-- The small digit on the left screen is the **Bluetooth profile number (1–5)**, not the layer. It changes only
-  when you switch profiles (`BT_NXT`/`BT_PRV` on the Raise layer). The current layer is shown by the RGB color.
-- The screens use the `nice_oled` shield, taken from my fork
+- The layer is shown both on the screen and by the RGB color. The left screen is drawn by `draw_layer_ladder()`
+  (`widgets/layer_ladder.c` in the module fork).
+- The right half only sees its own key presses, so the cat does not react to the left hand.
+  The Bluetooth icon and battery are hidden behind the full-screen cat (planned: small overlay).
+- The screens use the `nice_oled` shield from my fork
   [`NoFilterA1/zmk-nice-oled`](https://github.com/NoFilterA1/zmk-nice-oled) (branch `nzmk`). It is
   [`tokyo2006`'s LVGL 9 port](https://github.com/mctechnology17/zmk-nice-oled/pull/37) of
-  [`mctechnology17/zmk-nice-oled`](https://github.com/mctechnology17/zmk-nice-oled) plus two small fixes:
-  the `zmk_endpoints_selected()` name used by the `darknao/zmk` fork, and the responsive Bongo Cat frames.
-- Widget positions are Kconfig options (`CONFIG_NICE_OLED_WIDGET_*_CUSTOM_X/Y` in `config/corne.conf`).
-  The module was designed for a different canvas size, so some positions are tuned by hand.
+  [`mctechnology17/zmk-nice-oled`](https://github.com/mctechnology17/zmk-nice-oled) plus my changes:
+  `zmk_endpoints_selected()` for the `darknao/zmk` fork, working responsive Bongo Cat frames,
+  the layer-ladder screen and the peripheral Bongo Cat.
+- Widget positions and options are Kconfig values (`CONFIG_NICE_OLED_*` in `config/corne.conf`).
 
 ---
 
@@ -434,6 +448,14 @@ Dependencies (`config/west.yml`) are pinned to exact commits: the `darknao/zmk` 
 and the `nice_oled` fork described above.
 
 ---
+
+## ⚡ Latency notes
+
+- Split link (left ↔ right): connection interval 7.5 ms, **latency 0** (`ZMK_SPLIT_BLE_PREF_LATENCY=0`; default 30 would let the right half
+  sleep up to ~225 ms and delay layer/RGB commands). Costs some battery on the right half.
+- Host link (Bluetooth): interval 7.5–11.25 ms, latency 0, TX power +8 dBm. USB HID polling: 1 ms.
+- Debounce 7 ms press/release (ZMK default is 5). Kept on purpose for typing on soft surfaces; lower it for less latency, raise it if you get double letters or stuck keys.
+- Combos delay their keys by 50 ms: keep them off the layer/thumb keys.
 
 ## 🩺 Known issues
 

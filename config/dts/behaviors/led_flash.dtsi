@@ -1,0 +1,10 @@
+/ {
+    behaviors {
+        // Behavior can be invoked on peripherals, so name must be <= 8 characters.
+        lflash: lflash {
+            compatible = "zmk,behavior-led-flash";
+            #binding-cells = <1>;
+            display-name = "LED Flash";
+        };
+    };
+};

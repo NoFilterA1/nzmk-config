@@ -1,0 +1,5 @@
+description: Caps Word for Russian words (shifts and keeps going on the keys of х ъ ж э б ю ё)
+
+compatible: "zmk,behavior-ru-caps"
+
+include: zero_param.yaml

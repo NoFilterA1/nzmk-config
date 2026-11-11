@@ -1,0 +1,10 @@
+/ {
+    behaviors {
+        // Behavior can be invoked on peripherals, so name must be <= 8 characters.
+        lrgb: lrgb {
+            compatible = "zmk,behavior-led-rgb";
+            #binding-cells = <1>;
+            display-name = "RGB Control";
+        };
+    };
+};

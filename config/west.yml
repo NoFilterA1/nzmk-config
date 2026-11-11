@@ -12,6 +12,6 @@ manifest:
     # fork of tokyo2006/zmk-nice-oled (LVGL 9 port of mctechnology17/zmk-nice-oled) with fixes + custom left/right screens
     - name: zmk-nice-oled
       remote: nofiltera1
-      revision: d2f662a6dca38ab1f75f4c03f66725c1913c5d7e  # branch nzmk
+      revision: 950fa439c3d91e54eb6218a1fc38bb1da4e34d6c  # branch nzmk
   self:
     path: config

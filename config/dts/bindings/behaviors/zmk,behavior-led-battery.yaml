@@ -1,0 +1,5 @@
+description: LED battery behavior
+
+compatible: "zmk,behavior-led-battery"
+
+include: zero_param.yaml

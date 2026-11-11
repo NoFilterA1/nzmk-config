@@ -1,0 +1,5 @@
+description: Caps Word for English words that reports its state
+
+compatible: "zmk,behavior-en-caps"
+
+include: zero_param.yaml

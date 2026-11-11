@@ -1,0 +1,5 @@
+description: Signal "a key was pressed on the other half" (for the peripheral Bongo Cat)
+
+compatible: "zmk,behavior-tap-signal"
+
+include: zero_param.yaml

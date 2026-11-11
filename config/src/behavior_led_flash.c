@@ -14,6 +14,7 @@
 #include <zmk/behavior.h>
 #include <zmk/workqueue.h>
 #include <zmk/rgb_underglow.h>
+#include <nzmk/rgb_engine.h>
 
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -31,7 +32,9 @@ static struct led_rgb pixels[STRIP_PIXELS];
 static bool was_on;
 
 static void restore_cb(struct k_work *work) {
-    if (was_on) {
+    if (nzmk_rgb_fx_active()) {
+        /* our own effect engine redraws on its next tick */
+    } else if (was_on) {
         zmk_rgb_underglow_on(); /* redraws the current layer colors / effect */
     } else {
         memset(pixels, 0, sizeof(pixels));

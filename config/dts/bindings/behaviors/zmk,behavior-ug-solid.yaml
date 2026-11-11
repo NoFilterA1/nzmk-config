@@ -1,0 +1,5 @@
+description: Per-layer RGB color taken from the current solid color (hue/saturation), scaled by brightness
+
+compatible: "zmk,behavior-ug-solid"
+
+include: zero_param.yaml

@@ -1,0 +1,5 @@
+description: LED sync behavior
+
+compatible: "zmk,behavior-led-sync"
+
+include: one_param.yaml

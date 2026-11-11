@@ -16,6 +16,18 @@
 #include <dt-bindings/zmk/ext_power.h>
 #include <behaviors/display_toggle.dtsi>
 #include <behaviors/led_flash.dtsi>
+#include <behaviors/led_rgb.dtsi>
+#include <behaviors/tap_signal.dtsi>
+#include <behaviors/ug_solid.dtsi>
+#include <behaviors/led_sync.dtsi>
+#include <behaviors/ru_caps.dtsi>
+#include <behaviors/snippet.dtsi>
+
+// Скорости мыши на слое Adjust (Shift = быстро, Ctrl = медленно)
+#define MOUSE_FAST 3000
+#define MOUSE_SLOW 360
+#define SCROLL_FAST 25
+#define SCROLL_SLOW 3
 
 / {
     // Ебашим макрос, который был зашит в QMK: F3 + D
@@ -57,26 +69,125 @@
             bindings = <&kp F3>, <&macro_m1>;
         };
 
-        // Delete (удаление вперёд) на Shift+Ctrl+Backspace.
-        // Вложенный mod-morph: Shift -> проверяем Ctrl -> DEL. Одиночный Shift или Ctrl даёт обычный Backspace.
+        // Backspace: одиночный Shift или Ctrl даёт обычный Backspace; Shift+Ctrl+Backspace включает режим
+        // сниппетов (вложенный mod-morph: Shift -> проверяем Ctrl).
 
         bspc_del_ctl: backspace_delete_ctrl {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp BSPC>, <&kp DEL>;
+            // Shift+Ctrl+Backspace = "режим сниппетов": пока зажато, g/s/r/c/t/f/p печатают слова (&snip)
+            bindings = <&kp BSPC>, <&snip 0 0>;
 
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
-        // Слой Lower: Home/End, а с зажатым Ctrl PgUp/PgDn; предыдущий трек, а с Ctrl Delete.
-        // Ctrl в компьютер не уходит (mod-morph его маскирует).
+
+        // Липкий Shift: тап = следующая буква заглавная; удержание работает как обычный Shift.
+        // quick-release: на быстрой печати не получается две заглавные подряд.
+        skq: sticky_shift_quick {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <1000>;
+            quick-release;
+        };
+
+        // Мышь на слое Adjust: Shift = быстрее, Ctrl = медленнее (Ctrl сильнее). Модификатор в компьютер не уходит.
+        // Скорости: обычная = ZMK_POINTING_DEFAULT_*; быстро ×2.5; медленно ×0.3
+
+        mvl: mvl_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mvl_s>, <&mmv MOVE_X(-MOUSE_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        mvl_s: mvl_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mmv MOVE_LEFT>, <&mmv MOVE_X(-MOUSE_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mvr: mvr_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mvr_s>, <&mmv MOVE_X(MOUSE_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        mvr_s: mvr_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mmv MOVE_RIGHT>, <&mmv MOVE_X(MOUSE_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mvu: mvu_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mvu_s>, <&mmv MOVE_Y(-MOUSE_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        mvu_s: mvu_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mmv MOVE_UP>, <&mmv MOVE_Y(-MOUSE_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        mvd: mvd_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mvd_s>, <&mmv MOVE_Y(MOUSE_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        mvd_s: mvd_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&mmv MOVE_DOWN>, <&mmv MOVE_Y(MOUSE_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        scu: scu_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&scu_s>, <&msc MOVE_Y(SCROLL_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        scu_s: scu_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_UP>, <&msc MOVE_Y(SCROLL_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        scd: scd_speed {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&scd_s>, <&msc MOVE_Y(-SCROLL_SLOW)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        scd_s: scd_shift {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN>, <&msc MOVE_Y(-SCROLL_FAST)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // Слой Lower: Home/End, а с зажатым Alt (правый большой палец) PgUp/PgDn; предыдущий трек, а с Ctrl Delete.
+        // Модификатор морфа в компьютер не уходит (mod-morph его маскирует). Ctrl остаётся свободным: Ctrl+Home/End работают.
 
         home_pgup: home_or_pgup {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp HOME>, <&kp PG_UP>;
 
-            mods = <(MOD_LCTL|MOD_RCTL)>;
+            mods = <(MOD_LALT|MOD_RALT)>;
         };
 
         end_pgdn: end_or_pgdn {
@@ -84,7 +195,7 @@
             #binding-cells = <0>;
             bindings = <&kp END>, <&kp PG_DN>;
 
-            mods = <(MOD_LCTL|MOD_RCTL)>;
+            mods = <(MOD_LALT|MOD_RALT)>;
         };
 
         prev_del: prev_track_or_delete {
@@ -146,10 +257,10 @@
         // Layer 0: QWERTY (default base)
         default_layer {
             bindings = <
-&kp TAB    &kp Q  &kp W  &kp E     &kp R  &kp T        &kp Y    &kp U  &kp I      &kp O    &kp P     &bspc_del
-&kp LSHFT  &kp A  &kp S  &kp D     &kp F  &kp G        &kp H    &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LCTRL  &kp Z  &kp X  &kp C     &kp V  &kp B        &kp N    &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 2  &kp SPACE    &kp RET  &mo 3  &kp LALT
+&kp TAB      &kp Q        &kp W        &kp E        &snip R 3    &snip T 5      &kp Y        &kp U        &kp I        &kp O        &snip P 7    &bspc_del
+&skq LSHIFT  &kp A        &snip S 2    &kp D        &snip F 6    &snip G 1      &kp H        &kp J        &kp K        &kp L        &kp SEMI     &kp SQT
+&kp LCTRL    &kp Z        &kp X        &snip C 4    &kp V        &kp B          &kp N        &kp M        &kp COMMA    &kp DOT      &kp FSLH     &kp ESC
+                                       &kp LGUI     &mo 2        &kp SPACE      &kp RET      &mo 3        &kp LALT
             >;
         };
 
@@ -158,140 +269,172 @@
         // MO2/MO3/conditional_layers работают поверх как на базовом слое
         colemak_layer {
             bindings = <
-&kp TAB    &kp Q  &kp W  &kp F     &kp P  &kp B        &kp J    &kp L  &kp U      &kp Y    &kp SEMI  &bspc_del
-&kp LSHFT  &kp A  &kp R  &kp S     &kp T  &kp G        &kp M    &kp N  &kp E      &kp I    &kp O     &kp SQT
-&kp LCTRL  &kp X  &kp C  &kp D     &kp V  &kp Z        &kp K    &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                         &kp LGUI  &mo 2  &kp SPACE    &kp RET  &mo 3  &kp LALT
+&kp TAB      &kp Q        &kp W        &snip F 6    &snip P 7    &kp B          &kp J        &kp L        &kp U        &kp Y        &kp SEMI     &bspc_del
+&skq LSHIFT  &kp A        &snip R 3    &snip S 2    &snip T 5    &snip G 1      &kp M        &kp N        &kp E        &kp I        &kp O        &kp SQT
+&kp LCTRL    &kp X        &snip C 4    &kp D        &kp V        &kp Z          &kp K        &kp H        &kp COMMA    &kp DOT      &kp FSLH     &kp ESC
+                                       &kp LGUI     &mo 2        &kp SPACE      &kp RET      &mo 3        &kp LALT
             >;
         };
 
         // Layer 2: Lower (numbers, media, arrows)
         lower_layer {
             bindings = <
-&kp TAB    &kp N1  &kp N2  &kp N3        &kp N4      &kp N5          &kp N6    &kp N7    &kp N8    &kp N9     &kp N0  &bspc_del
-&kp LSHFT  &none   &none   &prev_del     &kp C_PP    &kp C_NEXT      &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &none   &none
-&kp LCTRL  &none   &none   &kp C_VOL_DN  &kp C_MUTE  &kp C_VOL_UP    &home_pgup &end_pgdn &none     &none      &none   &kp CAPS
-                           &kp LGUI      &trans      &kp SPACE       &kp RET   &trans    &kp LALT
+&kp TAB       &kp N1        &kp N2        &kp N3        &kp N4        &kp N5          &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        &bspc_del
+&skq LSHIFT   &none         &none         &prev_del     &kp C_PP      &kp C_NEXT      &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     &none         &none
+&kp LCTRL     &none         &none         &kp C_VOL_DN  &kp C_MUTE    &kp C_VOL_UP    &home_pgup    &end_pgdn     &none         &none         &none         &kp CAPS
+                                          &kp LGUI      &trans        &kp SPACE       &kp RET       &trans        &kp LALT
             >;
         };
 
         // Layer 3: Raise (symbols, BT)
         raise_layer {
             bindings = <
-&kp TAB    &kp EXCL  &kp AT  &kp HASH    &kp DLLR    &kp PRCNT     &kp CARET  &kp AMPS   &kp STAR  &kp LPAR  &kp RPAR  &bspc_del
-&kp LSHFT  &none     &none   &none       &none       &none         &kp MINUS  &kp EQUAL  &kp LBKT  &kp RBKT  &kp BSLH  &kp GRAVE
-&kp LCTRL  &none     &none   &bt BT_PRV  &bt BT_CLR  &bt BT_NXT    &kp UNDER  &kp PLUS   &kp LBRC  &kp RBRC  &kp PIPE  &caps_word
-                             &kp LGUI    &trans      &kp SPACE     &kp RET    &trans     &kp LALT
+&kp TAB      &kp EXCL     &kp AT       &kp HASH     &kp DLLR     &kp PRCNT      &kp CARET    &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR     &bspc_del
+&skq LSHIFT  &none        &none        &none        &none        &none          &kp MINUS    &kp EQUAL    &kp LBKT     &kp RBKT     &kp BSLH     &kp GRAVE
+&kp LCTRL    &ru_caps     &none        &bt BT_PRV   &bt BT_CLR   &bt BT_NXT     &kp UNDER    &kp PLUS     &kp LBRC     &kp RBRC     &kp PIPE     &en_caps
+                                       &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
             >;
         };
 
         // Layer 4: Adjust (mouse, F-keys, studio) — activates when Lower+Raise held
         adjust_layer {
             bindings = <
-&none   &none   &none   &none     &rgb_ug RGB_TOG  &to 5   &mkp MB1        &mkp MB2        &none         &none            &none  &dsptog
-&kp F1  &kp F2  &td_f3_m1  &kp F4    &kp F5           &kp F6       &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &none  &none
-&kp F7  &kp F8  &kp F9  &kp F10   &kp F11          &kp F12      &mkp MB3        &msc SCRL_DOWN  &msc SCRL_UP  &none            &none  &studio_unlock
-                        &kp LGUI  &trans           &kp SPACE    &kp RET         &trans          &kp LALT
+&none              &kp LCTRL          &kp LSHFT          &none              &lrgb RGB_EFF_CMD  &to 5                &mkp MB1           &mkp MB2           &none              &none              &none              &dsptog
+&kp F1             &kp F2             &td_f3_m1          &kp F4             &kp F5             &kp F6               &mvl               &mvd               &mvu               &mvr               &none              &none
+&kp F7             &kp F8             &kp F9             &kp F10            &kp F11            &kp F12              &mkp MB3           &scd               &scu               &none              &none              &studio_unlock
+                                                         &kp LGUI           &trans             &kp SPACE            &kp RET            &trans             &kp LALT
             >;
         };
 
-        // Layer 5: RGB controls
+        // Layer 5: RGB controls (кнопки с повтором при удержании: &lrgb)
         rgb_layer {
             bindings = <
-&rgb_ug RGB_BRD  &rgb_ug RGB_BRI  &trans           &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &studio_unlock
-&rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans
-&rgb_ug RGB_EFR  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_SPD  &rgb_ug RGB_SPI  &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&lrgb RGB_BRD_CMD  &lrgb RGB_BRI_CMD  &lrgb 100         &trans           &to 0            &trans    &trans  &trans  &trans  &trans  &trans  &studio_unlock
+&lrgb RGB_HUD_CMD  &lrgb RGB_HUI_CMD  &lrgb RGB_SAD_CMD &lrgb RGB_SAI_CMD &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans
+&lrgb RGB_EFR_CMD  &lrgb RGB_TOG_CMD  &lrgb RGB_EFF_CMD &lrgb RGB_SPD_CMD &lrgb RGB_SPI_CMD &lbat     &trans  &trans  &trans  &trans  &trans  &trans
                                                    &trans           &trans           &trans    &trans  &trans  &trans
+            >;
+        };
+
+        // Layer 6: копия Adjust (слой мыши), включается двойным тапом MO2+MO3 и остаётся до следующего MO
+        mouse_lock_layer {
+            bindings = <
+&none              &kp LCTRL          &kp LSHFT          &none              &lrgb RGB_EFF_CMD  &to 5                &mkp MB1           &mkp MB2           &none              &none              &none              &dsptog
+&kp F1             &kp F2             &td_f3_m1          &kp F4             &kp F5             &kp F6               &mvl               &mvd               &mvu               &mvr               &none              &none
+&kp F7             &kp F8             &kp F9             &kp F10            &kp F11            &kp F12              &mkp MB3           &scd               &scu               &none              &none              &none
+                                                         &kp LGUI           &trans             &kp SPACE            &kp RET            &trans             &kp LALT
             >;
         };
     };
 };
 
-/* Per-key RGB layer colors */
+/* Per-key RGB layer colors (режим LAY).
+ * Базовые слои 0/1 и слой RGB (5) показывают цвет SOLID (&ugs): тот, что настраивается кнопками RGB.
+ * Lower = зелёный, Raise = ржаво-оранжевый, Adjust (мышь) = белый. Яркость общая (кнопки BRI/BRD). */
 
 &rgb_layer {
     layer_0 {
         layer-id = <0>;
         bindings = <
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010
-            &ug 0x100010 &ug 0x100010 &ug 0x100010
+            // QWERTY: цвет SOLID
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs
+            &ugs &ugs &ugs
         >;
     };
 
     layer_1 {
         layer-id = <1>;
         bindings = <
-            // Colemak-DH: оранжевый акцент
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
-            &ug 0xFF6600 &ug 0xFF6600 &ug 0xFF6600
+            // Colemak: цвет SOLID
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs
+            &ugs &ugs &ugs
         >;
     };
 
     layer_2 {
         layer-id = <2>;
         bindings = <
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
-            &ug 0x00FF00 &ug 0x00FF00 &ug 0x00FF00
+            // Lower (цифры): зелёный
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
+            &ugc 0x00FF00 &ugc 0x00FF00 &ugc 0x00FF00
         >;
     };
 
     layer_3 {
         layer-id = <3>;
         bindings = <
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
-            &ug 0x0000FF &ug 0x0000FF &ug 0x0000FF
+            // Raise (символы): ржаво-оранжевый
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
+            &ugc 0xFF3A00 &ugc 0xFF3A00 &ugc 0xFF3A00
         >;
     };
 
     layer_4 {
         layer-id = <4>;
         bindings = <
-            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
-            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
-            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
-            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
-            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
-            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
-            &ug 0xFF4400 &ug 0xFF4400 &ug 0xFF4400
-            &ug 0x00AAFF &ug 0x00AAFF &ug 0x00AAFF
+            // Adjust (мышь): белый
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
         >;
     };
 
     layer_5 {
         layer-id = <5>;
         bindings = <
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
-            &ug 0xFF00FF &ug 0xFF00FF &ug 0xFF00FF
+            // RGB: цвет SOLID, чтобы видеть результат настройки
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs &ugs &ugs &ugs
+            &ugs &ugs &ugs
+            &ugs &ugs &ugs
+        >;
+    };
+
+    layer_6 {
+        layer-id = <6>;
+        bindings = <
+            // Mouse lock (копия Adjust): белый
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
+            &ugc 0xFFFFFF &ugc 0xFFFFFF &ugc 0xFFFFFF
         >;
     };
 };

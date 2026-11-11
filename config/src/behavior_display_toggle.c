@@ -54,3 +54,7 @@ BEHAVIOR_DT_INST_DEFINE(0, NULL, NULL, NULL, NULL, POST_KERNEL, CONFIG_KERNEL_IN
                         &behavior_display_toggle_driver_api);
 
 #endif /* DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT) */
+
+#if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
+bool nzmk_display_blanked(void) { return display_is_blanked; }
+#endif

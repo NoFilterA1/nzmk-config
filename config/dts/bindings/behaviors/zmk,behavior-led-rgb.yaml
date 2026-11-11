@@ -1,0 +1,5 @@
+description: RGB controls with hold-to-repeat and immediate redraw
+
+compatible: "zmk,behavior-led-rgb"
+
+include: one_param.yaml

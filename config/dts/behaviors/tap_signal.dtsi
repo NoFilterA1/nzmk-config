@@ -1,0 +1,10 @@
+/ {
+    behaviors {
+        // Behavior can be invoked on peripherals, so name must be <= 8 characters.
+        tapsig: tapsig {
+            compatible = "zmk,behavior-tap-signal";
+            #binding-cells = <0>;
+            display-name = "Tap Signal";
+        };
+    };
+};

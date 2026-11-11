@@ -1,0 +1,15 @@
+/ {
+    behaviors {
+        ugs: ug_solid {
+            compatible = "zmk,behavior-ug-solid";
+            #binding-cells = <0>;
+            display-name = "Underglow Solid Color";
+        };
+
+        ugc: ug_caps {
+            compatible = "zmk,behavior-ug-caps";
+            #binding-cells = <1>;
+            display-name = "Underglow Color (Caps aware)";
+        };
+    };
+};

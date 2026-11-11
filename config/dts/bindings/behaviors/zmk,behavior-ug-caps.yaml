@@ -1,0 +1,5 @@
+description: Per-layer RGB color that turns red while Caps is active
+
+compatible: "zmk,behavior-ug-caps"
+
+include: one_param.yaml

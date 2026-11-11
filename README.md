@@ -1,434 +1,276 @@
 <div align="center">
 
-<!-- Animated typing header -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=FFB347&center=true&vCenter=true&width=700&lines=⌨️+Corne+ZMK+Config;42+Keys+%7C+6+Layers;Per-Key+RGB+%7C+Animations;QWERTY+%2B+Colemak-DH)](https://git.io/typing-svg)
+# ⌨️ VTwin — Corne 42 на ZMK
 
-<br/>
+**Беспроводная сплит-клавиатура со своей прошивкой: слои, экраны, подсветка с эффектами, русский Caps Word, макросы, жесты.**
 
-</div>
-
----
-
-## 🎮 About This Config
-
-**Corne 42-key split keyboard** with ZMK firmware featuring:
-- **6 fully-featured layers** with per-key RGB color indicators
-- **Smart layer toggling** — Colemak-DH accessible without disrupting other layers
-- **Conditional layers** — hold two buttons to unlock special functions
-- **Игровой макрос** — двойное нажатие F3 на слое Adjust выполняет `F3↓ D F3↑`; Shift+Ctrl+Backspace = Delete
-- **Complete mouse control** — move, click, scroll on dedicated layer
-- **RGB customization** — 6 distinct color schemes, brightness/hue controls
-
----
-
-## 📊 Layer Overview
-
-| # | Layer | Activation | RGB Color | Purpose |
-|---|-------|-----------|-----------|---------|
-| **0** | 🟣 QWERTY | Default | `#100010` Dark Purple | Typing base layout |
-| **1** | 🟠 Colemak-DH | 4-corner combo (TAB+CTRL+BKSP+ESC) | `#FF6600` Orange | Ergonomic layout (alternative to QWERTY) |
-| **2** | 🟢 Lower | Hold `MO2` | `#00FF00` Green | Numbers, media, arrows |
-| **3** | 🔵 Raise | Hold `MO3` | `#0000FF` Blue | Symbols, Bluetooth |
-| **4** | 🟣 Adjust | `MO2` + `MO3` | `#FF4400` (left) / `#00AAFF` (right) | Mouse, F-keys, RGB/display, ZMK Studio unlock |
-| **5** | 🟣 RGB | `TO 5` | `#FF00FF` Magenta | RGB brightness/hue/effect controls |
-
----
-
-## ⌨️ Layer Diagrams
-
-### Layer 0 — 🟣 QWERTY (Default)
-
-<div align="center">
-
-![Layer 0](https://img.shields.io/badge/Layer-0%20QWERTY-100010?style=for-the-badge&logoColor=white&label=Default%20Base&labelColor=1a1a1a)
-
-| TAB | Q | W | E | R | T | — | Y | U | I | O | P | BSPC/DEL |
-|-----|---|---|---|---|---|----|---|---|---|---|---|------|
-| **LSHIFT** | **A** | **S** | **D** | **F** | **G** | — | **H** | **J** | **K** | **L** | **;** | **'** |
-| **LCTRL** | **Z** | **X** | **C** | **V** | **B** | — | **N** | **M** | **,** | **.** | **/** | **ESC** |
-| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **LALT** | | | |
+`ZMK` · `Zephyr 4.1` · `nice!nano v2 ×2` · `OLED 128×32 ×2` · `WS2812 ×54` · `BLE + USB`
 
 </div>
 
 ---
 
-### Layer 1 — 🟠 Colemak-DH (Alternate Base)
+## 📖 Содержание
 
-<div align="center">
-
-![Layer 1](https://img.shields.io/badge/Activation-4--Key%20Combo-FF6600?style=for-the-badge&logo=lightning&logoColor=white&label=TAB%20%2B%20CTRL%20%2B%20BKSP%20%2B%20ESC&labelColor=1a1a1a)
-
-| TAB | Q | W | F | P | B | — | J | L | U | Y | ; | BSPC/DEL |
-|-----|---|---|---|---|---|----|---|---|---|---|---|------|
-| **LSHIFT** | **A** | **R** | **S** | **T** | **G** | — | **M** | **N** | **E** | **I** | **O** | **'** |
-| **LCTRL** | **X** | **C** | **D** | **V** | **Z** | — | **K** | **H** | **,** | **.** | **/** | **ESC** |
-| | | | **LGUI** | **MO2** | **SPACE** | — | **ENTER** | **MO3** | **LALT** | | | |
-
-</div>
-
-> **✨ Key difference**: Colemak-DH is optimized for finger rolling and reduces same-hand bigrams.
-> Нижний ряд слева: `X C D V Z` (вариант Angle).
-
-> **🚀 Important:** Switching to L1 does NOT break your access to L2/L3/L4!
-> - `MO2` (LOWER) works **on top of** L1 base, just like L0
-> - `MO3` (RAISE) works **on top of** L1 base  
-> - `MO2` + `MO3` still activates L4 (Adjust) regardless of base layer
+1. [Что это](#-что-это)
+2. [Быстрый старт](#-быстрый-старт)
+3. [Слои: схемы клавиш](#-слои-схемы-клавиш)
+4. [Шпаргалка: жесты и сочетания](#-шпаргалка-жесты-и-сочетания)
+5. [Мышь на клавиатуре](#-мышь-на-клавиатуре)
+6. [Подсветка](#-подсветка)
+7. [Экраны](#-экраны)
+8. [Задержка и питание](#-задержка-и-питание)
+9. [Сборка и разработка](#-сборка-и-разработка)
+10. [Устройство репозитория](#-устройство-репозитория)
+11. [Известные ограничения](#-известные-ограничения)
+12. [Благодарности](#-благодарности)
 
 ---
 
-### Layer 2 — 🟢 Lower (Numbers, Media, Navigation)
+## 🎯 Что это
 
-<div align="center">
+Конфигурация для **Corne (crkbd) на 42 клавиши**: две половины на `nice!nano v2`, каждая с вертикальным OLED
+0,91″ и 27 светодиодами (21 под клавишами + 6 «дно»). Прошивка собирается на форке ZMK с подсветкой по слоям
+(`darknao/zmk`, Zephyr 4.1) и своим модулем в этом же репозитории.
 
-![Layer 2](https://img.shields.io/badge/Activation-Hold%20MO2-00FF00?style=for-the-badge&logoColor=white&label=Any%20Base%20Layer&labelColor=1a1a1a)
+**Главное:**
 
-| TAB | 1 | 2 | 3 | 4 | 5 | — | 6 | 7 | 8 | 9 | 0 | BSPC/DEL |
-|-----|---|---|---|---|---|----|---|---|---|---|---|------|
-| **LSHIFT** | — | — | **◀◀ / Del** | **▶ ⏸** | **▶▶** | — | **←** | **↓** | **↑** | **→** | — | — |
-| **LCTRL** | — | — | **🔊-** | **🔇** | **🔊+** | — | **Home / PgUp** | **End / PgDn** | — | — | — | **CAPS** |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
-
-**Features:**
-- Numpad on top row (1-0)
-- Media controls: Previous/Play/Next
-- Arrow keys (vim-style: ←↓↑→)
-- Volume control: Decrease/Mute/Increase
-- Navigation (right hand, `N` / `M`): `Home` / `End`; with `Ctrl` held: `PgUp` / `PgDn` (Ctrl is not sent to the PC)
-- `D`: previous track; with `Ctrl` held: `Delete`
-- **Caps Lock** on the bottom-right corner (the `Esc` position)
-
-</div>
+- 🧭 **7 слоёв**: QWERTY, Colemak-DH, Lower (цифры, медиа, навигация), Raise (символы), Adjust (мышь, F-клавиши), RGB, залипающая мышь
+- 🇷🇺 **Русский Caps Word** (х ъ ж э б ю ё не обрывают режим), смена языка двойным тапом `Shift+Ctrl`
+- ✍️ **Макросы-сниппеты** по `Ctrl+Shift+⌫` + буква, липкий Shift
+- 🖱 **Мышь с клавиатуры**: быстро/медленно, колесо, залипающий слой мыши
+- 💡 **7 режимов подсветки**, в том числе рябь от нажатий, секретный «взрыв» и индикатор Caps
+- 📟 **Экраны**: слои, модификаторы, батарея, плашка Caps, меню RGB, Bongo Cat
+- ⚡ **Низкая задержка** между половинами и до компьютера
 
 ---
 
-### Layer 3 — 🔵 Raise (Symbols, Bluetooth)
+## 🚀 Быстрый старт
 
-<div align="center">
+### 1. Скачать прошивку
+GitHub → вкладка **Actions** → последний зелёный запуск **Build ZMK** → артефакт `firmware`:
+`corne_left_nice_oled.uf2` и `corne_right_nice_oled.uf2`.
 
-![Layer 3](https://img.shields.io/badge/Activation-Hold%20MO3-0000FF?style=for-the-badge&logoColor=white&label=Any%20Base%20Layer&labelColor=1a1a1a)
+### 2. Прошить (каждую половину по очереди)
+1. Подключить половину по USB.
+2. **Два быстрых нажатия кнопки reset** на `nice!nano`: появится диск `NICENANO`.
+3. Скопировать на диск соответствующий `.uf2`. Диск пропадёт, клавиатура перезагрузится.
 
-| TAB | ! | @ | # | $ | % | — | ^ | & | * | ( | ) | BSPC/DEL |
-|-----|---|---|---|---|---|----|---|---|---|---|---|------|
-| **LSHIFT** | — | — | — | — | — | — | **-** | **=** | **[** | **]** | **\\** | **`** |
-| **LCTRL** | — | — | **📱◀** | **📱✕** | **📱▶** | — | **_** | **+** | **{** | **}** | **\|** | **CAPS WORD** |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
+> 💾 **Бэкап перед экспериментами:** на диске `NICENANO` лежит `CURRENT.UF2`, это копия того, что сейчас в плате.
+> Скопируйте его, и в любой момент можно вернуть прошивку обратно тем же способом.
 
-**Features:**
-- All punctuation symbols
-- Bluetooth management: Previous profile / Clear **current** profile / Next profile
-- Right side: `- = [ ] \ `` ` and their Shift variants `_ + { } |` on the row below (`~` is `Shift` + `` ` ``)
-- **Caps Word** on the bottom-right corner (the `Esc` position): capitalises one word and turns itself off
-
-</div>
+### 3. Если что-то ведёт себя странно (экран не горит, не подключается)
+Сначала прошейте `settings_reset.uf2` (сборка в [разделе про сборку](#-сборка-и-разработка)), затем обычную прошивку.
+Сброс очищает сохранённые настройки и Bluetooth-привязки (после него `VTwin` нужно добавить заново).
 
 ---
 
-### Layer 4 — 🟣 Adjust (Mouse, F-Keys, Display Control)
+## 🗺 Слои: схемы клавиш
 
-<div align="center">
+Обозначения: `·` пусто · `▽` прозрачная (берётся со слоя ниже) · `Shift*` липкий Shift · `g•` буква-сниппет ·
+`⌫` Backspace · `Реж` режим подсветки.
 
-![Layer 4](https://img.shields.io/badge/Activation-Conditional-FF4400?style=for-the-badge&logoColor=white&label=MO2%20%2B%20MO3&labelColor=1a1a1a)
-
-| — | — | — | — | **RGB** | **L5** | — | **🖱L** | **🖱R** | — | — | — | **DSP** |
-|---|---|---|---|------|-----|----|---------|---------|---|---|---|---|
-| **F1** | **F2** | **F3 / ×2 = макрос** | **F4** | **F5** | **F6** | — | **←** | **↓** | **↑** | **→** | — | — |
-| **F7** | **F8** | **F9** | **F10** | **F11** | **F12** | — | **🖱M** | **⬇** | **⬆** | — | — | **UNLOCK** |
-| | | | **LGUI** | **TRANS** | **SPACE** | — | **ENTER** | **TRANS** | **LALT** | | | |
-
-**Features:**
-- **F1–F12 keys** on left side
-- **Mouse movement**: ← ↓ ↑ → (move cursor)
-- **Mouse buttons**: 🖱L (left click), 🖱R (right click), 🖱M (middle / wheel click, on `N`)
-- **Scroll**: ⬆ ⬇ (vertical scrolling)
-- **RGB** (top row, 5th key): toggle RGB on/off
-- **DSP** (top row, rightmost key): toggle the OLED on/off (`&dsptog`, see below)
-- **F3**: tap = `F3`, double tap = macro `F3↓ D F3↑`
-- **UNLOCK**: unlock ZMK Studio (live keymap editor)
-
-</div>
-
----
-
-### Layer 5 — 🟣 RGB Controls (LED Customization)
-
-<div align="center">
-
-![Layer 5](https://img.shields.io/badge/Activation-Toggle%20TO5-FF00FF?style=for-the-badge&logoColor=white&label=RGB%20Controls&labelColor=1a1a1a)
-
-| 🔆- | 🔆+ | — | — | **L0** | — | — | — | — | — | — | — | **UNLOCK** |
-|-----|-----|---|---|-----|----|---|---|---|---|---|---|----------|
-| **🌈H-** | **🌈H+** | **🎨S-** | **🎨S+** | — | — | — | — | — | — | — | — | — |
-| **◀◀** | **🎨OFF** | **▶▶** | **⚡-** | **⚡+** | — | — | — | — | — | — | — | — |
-| | | | — | — | — | — | — | — | — | | | |
-
-**Controls:**
-- **🔆-/+** — Brightness down / up
-- **🌈H-/+** — Hue down / up (color wheel)
-- **🎨S-/+** — Saturation down / up
-- **🎨OFF** — Toggle RGB on/off
-- **◀◀ / ▶▶** — Previous / Next effect
-- **⚡-/+** — Effect speed down / up
-- **L0** — Return to QWERTY (note: if you were on Colemak, you return to QWERTY)
-
-</div>
-
----
-
-## ✨ Unique Features Explained
-
-### 1️⃣ Combo-Activated Colemak-DH Toggle
-
-**The Problem:** Switching between QWERTY and Colemak usually requires a dedicated key. This wastes space on a 42-key board.
-
-**The Solution:** a 4-key combo on the four corner keys, with a short LED flash as feedback:
-
-```zmk
-combo_colemak_on {
-    key-positions = <0 11 24 35>;   // TAB, BACKSPACE, LCTRL, ESC
-    require-prior-idle-ms = <150>;  // keys do not wait for the combo while you are typing
-    bindings = <&col_on>;           // &to 1 + red flash
-    layers = <0>;                   // Only on QWERTY
-    timeout-ms = <50>;
-};
-
-combo_colemak_off {
-    key-positions = <0 11 24 35>;
-    require-prior-idle-ms = <150>;
-    bindings = <&col_off>;          // &to 0 + green flash
-    layers = <1>;                   // Only on Colemak
-    timeout-ms = <50>;
-};
+### Слой 0: QWERTY (основной)
+```
+  Tab     Q      W      E      r•     t•     │      Y      U      I      O      p•     ⌫
+ Shift*   A      s•     D      f•     g•     │      H      J      K      L      ;      '
+  Ctrl    Z      X      c•     V      B      │      N      M      ,      .      /     Esc
+                       Win   Lower  Space    │    Enter  Raise   Alt
 ```
 
-**How it works:**
-- Press all 4 corner keys (`TAB` + `LCTRL` + `BACKSPACE` + `ESC`) **simultaneously** after a short pause in typing
-- On QWERTY (L0) → switches to Colemak (L1) and **all LEDs flash dim red** for ~0.1 s
-- On Colemak (L1) → switches back to QWERTY (L0) and the LEDs **flash dim green**
-- The flash works even when RGB is off (`&lflash`, source in `config/src/behavior_led_flash.c`)
-- Latency note: a key that is part of a combo waits up to 50 ms to see whether the others follow.
-  `require-prior-idle-ms=150` removes that wait while you are typing; only the first key after a pause (>150 ms) is delayed.
-  That is why the combo is on the corner keys and not on the thumb keys (layer keys must never wait).
-
-**Why it's powerful:**
-- **No accidental triggers** — 4 keys pressed at once is deliberate
-- **Doesn't break other layers** — Lower/Raise/Adjust still work on L1
-- **Stays out of the way** — the corner keys are not used for layers
-
----
-
-### 2️⃣ Conditional Layers (FN_MO13 from QMK)
-
-**The Problem:** You want a "super layer" that only activates when holding TWO specific buttons. No extra key needed.
-
-**The Solution:**
-
-```zmk
-conditional_layers {
-    tri_layer {
-        if-layers = <2 3>;      // If LOWER (2) AND RAISE (3) held...
-        then-layer = <4>;       // ...activate Adjust (4)
-    };
-};
+### Слой 1: Colemak-DH (вариант Angle)
+Включается и выключается **углами**: `Tab` + `Ctrl` + `⌫` + `Esc` одновременно (после небольшой паузы в печати). Светодиоды коротко вспыхивают:
+красным при входе, зелёным при выходе.
+```
+  Tab     Q      W      f•     p•     B      │      J      L      U      Y      ;      ⌫
+ Shift*   A      r•     s•     t•     g•     │      M      N      E      I      O      '
+  Ctrl    X      c•     D      V      Z      │      K      H      ,      .      /     Esc
+                       Win   Lower  Space    │    Enter  Raise   Alt
 ```
 
-**Behavior:**
-- Hold `MO2` (LOWER) alone → Layer 2 activates
-- Hold `MO3` (RAISE) alone → Layer 3 activates
-- Hold `MO2` + `MO3` together → Layer 4 (Adjust) activates **instead**
-
-**Why ZMK is better than QMK here:**
-- No weird hacks or placeholder bindings
-- Automatically activates when both conditions are met
-- Clean, declarative syntax
-
----
-
-### 3️⃣ Mod-Morph: Shift+Ctrl+Backspace = Delete
-
-**The Problem:** You want Backspace to delete right (Delete key) but you don't have space for both keys.
-
-**The Solution:** two nested mod-morphs (Shift, then Ctrl):
-
-```zmk
-bspc_del_ctl: backspace_delete_ctrl {
-    compatible = "zmk,behavior-mod-morph";
-    #binding-cells = <0>;
-    bindings = <&kp BSPC>, <&kp DEL>;
-    mods = <(MOD_LCTL|MOD_RCTL)>;
-};
-
-bspc_del: backspace_delete {
-    compatible = "zmk,behavior-mod-morph";
-    #binding-cells = <0>;
-    bindings = <&kp BSPC>, <&bspc_del_ctl>;
-    mods = <(MOD_LSFT|MOD_RSFT)>;
-};
+### Слой 2: Lower (зажать левый большой палец)
+```
+  Tab     1      2      3      4      5      │      6      7      8      9      0      ⌫
+ Shift*   ·      ·    ⏮/Del    ⏯      ⏭      │      ←      ↓      ↑      →      ·      ·
+  Ctrl    ·      ·     Vol-   Mute   Vol+    │     Home   End     ·      ·      ·     Caps
+                       Win     ▽    Space    │    Enter    ▽     Alt
 ```
 
-**Behavior:** (used on the top-right key of layers 0–3)
-- Normal tap: `Backspace`
-- `Shift` + `Ctrl` + tap: `Delete` (deletes the character to the right, no modifiers sent)
-- `Shift` alone or `Ctrl` alone: plain `Backspace` (ZMK hides the morph modifiers)
+- `D`: предыдущий трек, с зажатым `Ctrl` это **Delete**
+- `N`/`M` (правая рука): **Home / End**; с зажатым `Alt` (правый большой палец) это **PgUp / PgDn**. `Ctrl+Home/End` работают как обычно
+- Правый нижний угол: **Caps Lock**
 
----
-
-### 4️⃣ Tap Dance: F3 vs Game Macro (M1)
-
-**The Problem:** You want F3 for one thing, but also a macro `F3 (hold) + D (release F3)` for a game. One key, two functions.
-
-**The Solution:**
-
-```zmk
-macros {
-    macro_m1: macro_m1 {
-        compatible = "zmk,behavior-macro";
-        bindings =
-            <&macro_press>, <&kp F3>,    // Hold F3
-            <&macro_tap>, <&kp D>,       // Tap D
-            <&macro_release>, <&kp F3>; // Release F3
-    };
-};
-
-td_f3_m1: tap_dance_f3_m1 {
-    compatible = "zmk,behavior-tap-dance";
-    bindings = <&kp F3>, <&macro_m1>;
-    tapping-term-ms = <180>;  // 180ms to distinguish tap vs double-tap
-};
+### Слой 3: Raise (зажать правый большой палец)
+```
+  Tab     !      @      #      $      %      │      ^      &      *      (      )      ⌫
+ Shift*   ·      ·      ·      ·      ·      │      -      =      [      ]      \      `
+  Ctrl  CapsRU   ·     BT←    BT✕    BT→     │      _      +      {      }      |    CapsW
+                       Win     ▽    Space    │    Enter    ▽     Alt
 ```
 
-**Behavior:**
-- Single tap: `F3` (activates a menu/mode in-game)
-- Double tap (within 180ms): Macro `F3↓ D F3↑` (performs special action while holding F3)
+- Правый нижний угол: **Caps Word** (английский), `Z`: **Caps Word для русских слов**
+- `~` это `Shift` + `` ` ``; `х`/`ъ`/`ё` в русской раскладке лежат на `[` `]` `` ` `` этого слоя
 
-Bound to the **F3** key on the Adjust layer (layer 4).
-
----
-
-### 5️⃣ Mouse Control on Adjust Layer
-
-**The Problem:** You want mouse control without external hardware.
-
-**The Solution:** Dedicated mouse layer with movement, clicking, and scrolling:
-
-```zmk
-// Adjust layer (Layer 4)
-&mmv MOVE_LEFT   // Move cursor left
-&mmv MOVE_RIGHT  // Move cursor right
-&mmv MOVE_UP     // Move cursor up
-&mmv MOVE_DOWN   // Move cursor down
-
-&mkp MB1         // Left click
-&mkp MB2         // Right click
-
-&msc SCRL_UP     // Scroll up
-&msc SCRL_DOWN   // Scroll down
+### Слой 4: Adjust (зажать **оба** больших пальца: Lower + Raise)
+```
+   ·     Ctrl  Shift    ·     Реж→   →RGB    │     ЛКМ    ПКМ     ·      ·      ·    Экран
+   F1     F2   F3/M1    F4     F5     F6     │      М←     М↓     М↑     М→     ·      ·
+   F7     F8     F9    F10    F11    F12     │     СКМ    Скр↓   Скр↑    ·      ·    Studio
+                       Win     ▽    Space    │    Enter    ▽     Alt
 ```
 
-**Activation:** Hold `MO2` + `MO3` simultaneously. Move = keys under `H J K L`, buttons = top row (`Y` `U`), scroll = bottom row (`M` `,`).
+### Слой 5: RGB (с Adjust: клавиша `→RGB`; назад: `→QWE`)
+```
+   B-     B+    LAY     ▽     →QWE    ▽      │      ▽      ▽      ▽      ▽      ▽    Studio
+   H-     H+     S-     S+     ▽      ▽      │      ▽      ▽      ▽      ▽      ▽      ▽
+  Реж←   Вкл    Реж→   Ск-    Ск+   Заряд    │      ▽      ▽      ▽      ▽      ▽      ▽
+                        ▽      ▽      ▽      │      ▽      ▽      ▽
+```
 
-**Speed control:** defined at the top of `config/corne.keymap`:
-```zmk
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200  // Cursor speed
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 10    // Scroll speed
+### Слой 6: залипшая мышь
+Копия Adjust (кроме `Esc` в углу, там пусто). Включается и снимается жестом, см. [мышь](#-мышь-на-клавиатуре).
+```
+   ·     Ctrl  Shift    ·     Реж→   →RGB    │     ЛКМ    ПКМ     ·      ·      ·    Экран
+   F1     F2   F3/M1    F4     F5     F6     │      М←     М↓     М↑     М→     ·      ·
+   F7     F8     F9    F10    F11    F12     │     СКМ    Скр↓   Скр↑    ·      ·      ·
+                       Win     ▽    Space    │    Enter    ▽     Alt
 ```
 
 ---
 
-### 6️⃣ RGB Toggle and Display Toggle (Adjust layer)
+## 🧰 Шпаргалка: жесты и сочетания
 
-- Top row, 5th key: `&rgb_ug RGB_TOG` — RGB on/off (RGB is **off** after power-up)
-- Top row, rightmost key: `&dsptog` — blanks / unblanks the OLED on the half where it runs
-  (both halves react, each keeps its own state). It sends the OLED's own "display off" command.
-  The source is in `config/src/behavior_display_toggle.c` (a small Zephyr module that lives in this repo).
-- There is deliberately **no** external-power (`EP_TOG`) key: its state is saved in flash, and a saved
-  "off" cuts the OLED power right after boot (the screen blinks and dies). If the screens stay dark,
-  flash `settings_reset.uf2` first and then the normal firmware.
+| Что | Как | Результат |
+|-----|-----|-----------|
+| Colemak ⇄ QWERTY | `Tab`+`Ctrl`+`⌫`+`Esc` вместе (после паузы) | смена слоя + вспышка LED |
+| Сменить язык | `Shift`+`Ctrl` вместе **два раза** подряд (до 0,7 с) | `Win+K` |
+| Липкий Shift | тап `Shift` | следующая буква заглавная; удержание работает как обычный Shift |
+| Caps Word EN | Raise, правый нижний угол | заглавные до пробела/знака |
+| Caps Word RU | Raise, `Z` | то же для русских слов (включая х ъ ж э б ю ё) |
+| Caps Lock | Lower, правый нижний угол | обычный Caps |
+| Delete | Lower: `Ctrl`+`D` | удалить вперёд |
+| Home / End | Lower: `N` / `M` | начало / конец строки |
+| PgUp / PgDn | Lower: `Alt`+`N` / `Alt`+`M` | страница вверх / вниз |
+| Сниппеты | держать `Ctrl`+`Shift`+`⌫`, нажать букву | набирается слово (ниже) |
+| Экран вкл/выкл | Adjust, верхний правый угол | гасит/включает OLED этой половины |
+| Заряд батареи | слой RGB: **зажать `B`** | каждая клавиша = блок батареи |
+| Залипнуть на мыши | `Lower`+`Raise` вместе **два раза** подряд | слой мыши остаётся |
 
----
+### ✍️ Сниппеты
+Зажать `Ctrl`+`Shift`+`⌫`, затем одна из букв (отпускать модификаторы не нужно, они скрываются на время набора):
 
-### 8️⃣ OLED Screens (nice_oled)
+| Буква | Слово | Буква | Слово |
+|-------|-------|-------|-------|
+| `g` | `goal` | `t` | `theme` |
+| `s` | `style` | `f` | `format` |
+| `r` | `rule` | `c` | `context` |
+| `p` | длинная строка (английские и русские куски) | | |
 
-| Half | What it shows |
-|------|---------------|
-| **Left** (central) | big base letter (`Q` / `C`), the **layer ladder** `QWE COL LOW RAI ADJ RGB` (base layer and active layer are inverted bars), modifiers `^ S A W` (Ctrl, Shift, Alt, Win), connection (`USB` or `BT` + 5 profile squares), battery icon with percent |
-| **Right** (peripheral) | **Bongo Cat** that reacts to the key presses of the right half |
-
-- The layer is shown both on the screen and by the RGB color. The left screen is drawn by `draw_layer_ladder()`
-  (`widgets/layer_ladder.c` in the module fork).
-- The right half only sees its own key presses, so the cat does not react to the left hand.
-  The Bluetooth icon and battery are hidden behind the full-screen cat (planned: small overlay).
-- The screens use the `nice_oled` shield from my fork
-  [`NoFilterA1/zmk-nice-oled`](https://github.com/NoFilterA1/zmk-nice-oled) (branch `nzmk`). It is
-  [`tokyo2006`'s LVGL 9 port](https://github.com/mctechnology17/zmk-nice-oled/pull/37) of
-  [`mctechnology17/zmk-nice-oled`](https://github.com/mctechnology17/zmk-nice-oled) plus my changes:
-  `zmk_endpoints_selected()` for the `darknao/zmk` fork, working responsive Bongo Cat frames,
-  the layer-ladder screen and the peripheral Bongo Cat.
-- Widget positions and options are Kconfig values (`CONFIG_NICE_OLED_*` in `config/corne.conf`).
-
----
-
-### 7️⃣ Per-Key RGB by Layer (Visual Layer Indicator)
-
-The keyboard shows **which layer you're on** by the color of the entire keyboard:
-
-**RGB color mapping:**
-- **L0 (QWERTY)** → `#100010` Dark Purple (base)
-- **L1 (Colemak)** → `#FF6600` Orange
-- **L2 (Lower)** → `#00FF00` Green (bright indicator)
-- **L3 (Raise)** → `#0000FF` Blue
-- **L4 (Adjust)** → `#FF4400` (left half) + `#00AAFF` (right half)
-- **L5 (RGB)** → `#FF00FF` Magenta
-
-**Why this matters:**
-- No mental load checking layer status — look at keyboard color
-- Physical feedback that you switched layers
-- Useful in the dark or while gaming
-- **RGB is OFF after power-up.** Turn it on with the RGB key on the Adjust layer (layer 4, 5th key of the top row)
-- Effects/brightness can be changed on Layer 5 (RGB controls); layer colors themselves are set in `config/corne.keymap`
+- Для `p` макрос сам переключает раскладку (`Win+K`) между английскими и русскими фрагментами и в конце возвращает английскую.
+  **Условие: в момент нажатия раскладка английская.**
+- **Нажатие любой реальной клавиши мгновенно прерывает набор.**
 
 ---
 
-## 🎨 RGB Color Legend
+## 🖱 Мышь на клавиатуре
 
-```
-┌─────────────────────────────────────────┐
-│  Layer 0 (QWERTY)                       │
-│  ██████████████████████████████████████ │  #100010 Dark Purple
-│                                          │
-│  Layer 1 (Colemak-DH)                   │
-│  ██████████████████████████████████████ │  #FF6600 Orange
-│                                          │
-│  Layer 2 (Lower)                        │
-│  ██████████████████████████████████████ │  #00FF00 Green
-│                                          │
-│  Layer 3 (Raise)                        │
-│  ██████████████████████████████████████ │  #0000FF Blue
-│                                          │
-│  Layer 4 (Adjust) — left / right halves│
-│  ██████████████████████████████████████ │  #FF4400 Orange
-│  ██████████████████████████████████████ │  #00AAFF Sky Blue
-│                                          │
-│  Layer 5 (RGB Controls)                 │
-│  ██████████████████████████████████████ │  #FF00FF Magenta
-└─────────────────────────────────────────┘
-```
+Слой Adjust (держите `Lower` + `Raise`):
+
+| Действие | Клавиши |
+|----------|---------|
+| Курсор | `H` ← · `J` ↓ · `K` ↑ · `L` → |
+| Кнопки | `Y` левая · `U` правая · `N` средняя (колесо) |
+| Прокрутка | `M` вниз · `,` вверх |
+| **Медленнее** | держать `Q` (даёт ×0,3 и курсору, и прокрутке) |
+| **Быстрее** | держать `W` (×2,5) |
+
+**Залипающая мышь:** тапните `Lower`+`Raise` вместе **два раза** (в течение 0,9 с, без других клавиш): слой мыши остаётся включённым.
+Снять: нажать `Lower`, `Raise` или `Esc` (правый нижний угол).
+
+Скорости настраиваются в начале `corne.keymap` (`MOUSE_FAST/SLOW`, `SCROLL_FAST/SLOW`, `ZMK_POINTING_DEFAULT_*`).
 
 ---
 
-## 🔧 Build & Flash
+## 💡 Подсветка
 
-**Automatic (recommended):** every push to GitHub starts the *Build ZMK* workflow
-(`.github/workflows/build.yml`). It builds both halves
-(`corne_left nice_oled` with ZMK Studio, `corne_right nice_oled`) in the `zmkfirmware/zmk-build-arm:stable` image.
-(The official reusable ZMK workflow is not used: it rejects `nice_nano/nrf52840` and demands a `//zmk` board variant that the
-`darknao/zmk` fork does not have.)
-Download the `firmware` artifact from the *Actions* tab.
+Подсветка **выключена при старте**. Включение и настройка на слое RGB (`Adjust` → `→RGB`).
 
-**Flash:** double-tap reset on the nice!nano → it appears as a USB drive →
-copy the matching `.uf2` (`corne_left…` / `corne_right…`) onto it. Repeat for the second half.
+### Управление (слой RGB)
 
-**Local build** (Docker, same image as CI; about 2 minutes after the first download):
+| Клавиша (по месту на QWERTY) | Действие |
+|------------------------------|----------|
+| `B-` `B+` (позиции `Tab` и `Q`) | яркость, **зажимайте** (повторяется) |
+| `H-` `H+` (левый `Shift` и `A`) | оттенок, зажимайте |
+| `S-` `S+` (`S` и `D`) | насыщенность, зажимайте |
+| `LAY` (`W`) | сразу режим «по слоям» |
+| `→QWE` (`R`) | выйти со слоя RGB |
+| `Реж←` (левый `Ctrl`) · `Реж→` (`X`) | предыдущий / следующий режим подсветки |
+| `Вкл` (`Z`) | включить / выключить подсветку |
+| `Ск-` `Ск+` (`C` и `V`) | скорость анимации |
+| **зажать `B`** | показать заряд батареи |
 
+Также на слое Adjust клавиша `Реж→` (`R`) переключает режим, не заходя на слой RGB.
+Обе половины **всегда одного цвета и режима**: левая отправляет состояние правой.
+
+### Режимы
+
+| Режим | Что делает |
+|-------|------------|
+| `SOL` | сплошной выбранный цвет |
+| `BRE` | «дыхание» |
+| `SPE` | переливание всех цветов |
+| `SWI` | вихрь |
+| `LAY` | **цвет по слоям**: слои 0/1/5 = выбранный цвет (SOL), Lower зелёный, Raise ржаво-оранжевый, Adjust и залипшая мышь белые |
+| `RIP` | **рябь**: от нажатой клавиши расходятся волны выбранного цвета; пока клавиша зажата, волны идут снова и снова; светится и «дно» |
+| `INV` | как `RIP`, но фон светится **обратным цветом** (оттенок +180°) |
+
+Яркость общая для всех режимов (в `LAY` максимум около 40 % от `SOL`: ограничение форка).
+
+### 🔴 Индикатор Caps
+Когда включён Caps Lock или Caps Word: на экране плашка `CAPS`/`WORD`, а клавиши в режимах `LAY` и `RIP` краснеют
+(голубеют, если цвет и так красный).
+
+### 💥 Секрет режима `INV`: перегрузка
+Быстро тапайте **свою** клавишу слоя (левая половина: левый большой палец, правая: правый большой). Каждый тап сильнее предыдущего
+(волны шире и ярче, на клавишах вспыхивают искры, всё светится «изнутри»). **10-й тап пробивает оболочку**: три мощных волны, белая вспышка,
+и клавиатура **сама пускает волны** со случайных клавиш. Ещё 10 тапов успокаивают её. Половины работают независимо.
+
+---
+
+## 📟 Экраны
+
+**Левый** (сверху вниз):
+- крупная буква базы `Q` / `C`; пока Caps включён, на этом месте плашка `CAPS` / `WORD`
+- «лестница» слоёв `QWE COL LOW RAI ADJ RGB`: закрашены **базовая раскладка и активный слой**
+- модификаторы `^ S A W` (Ctrl, Shift, Alt, Win), нажатые закрашены
+- подключение: `USB` или `BT` + пять квадратиков профиля
+- батарея и проценты
+
+**На слое RGB** левый экран превращается в меню: список режимов (текущий закрашен), значения `H` `S` `B`, полоса яркости, индикатор «вкл».
+
+**Правый**: Bongo Cat, реагирует на нажатия обеих рук.
+
+Экраны **гаснут через 5 минут** без нажатий и просыпаются от любой клавиши. Вручную: `Adjust`, верхний правый угол.
+
+---
+
+## ⚡ Задержка и питание
+
+- Между половинами: интервал 7,5 мс, `latency 0` (иначе правая могла «спать» до 225 мс). Цена: чуть быстрее садится батарея правой.
+- До компьютера: Bluetooth 7,5–11 мс, USB опрос 1 мс.
+- Антидребезг **7 мс** (стандарт ZMK 5 мс): оставлен для печати на мягком; уменьшайте для скорости, увеличивайте при двойных буквах.
+- Комбо ждёт 50 мс, поэтому оно стоит на **угловых** клавишах и не мешает потоку печати (`require-prior-idle`): слои и модификаторы без комбо.
+- Глубокий сон **выключен** (тест стабильности), экраны и режим простоя работают.
+
+---
+
+## 🛠 Сборка и разработка
+
+### GitHub Actions
+Каждый пуш запускает **Build ZMK** (`.github/workflows/build.yml`): собираются обе половины в образе `zmkfirmware/zmk-build-arm:stable`,
+артефакт `firmware`. Официальный общий workflow ZMK не используется: он требует вариант платы `//zmk`, которого нет в форке подсветки.
+
+### Локально (Docker)
 ```bash
 mkdir ws && cp -r config ws/config && cd ws
 docker run --rm -u $(id -u):$(id -g) -e HOME=/tmp -v "$PWD":/ws zmkfirmware/zmk-build-arm:stable bash -c '
@@ -437,74 +279,66 @@ docker run --rm -u $(id -u):$(id -g) -e HOME=/tmp -v "$PWD":/ws zmkfirmware/zmk-
     -DSHIELD="corne_left nice_oled" -DZMK_CONFIG=/ws/config -DCONFIG_ZMK_STUDIO=y
   west build -p -s zmk/app -d out/right -b nice_nano/nrf52840 -- \
     -DSHIELD="corne_right nice_oled" -DZMK_CONFIG=/ws/config'
-# result: out/left/zephyr/zmk.uf2, out/right/zephyr/zmk.uf2
+# результат: out/left/zephyr/zmk.uf2, out/right/zephyr/zmk.uf2
+```
+**Всегда `-p`** (чистая сборка): без него west молча берёт старый кэш и игнорирует смену шилда.
+
+<details>
+<summary>Отладочная сборка и сброс настроек</summary>
+
+- **Логи по USB** (левая половина): добавить `-S zmk-usb-logging -DCONFIG_ZMK_LOG_LEVEL_DBG=y` (без `studio-rpc-usb-uart`), читать `/dev/ttyACM*` на 115200.
+- **Сброс настроек:** собрать с `-DSHIELD=settings_reset` и пустой папкой `-DZMK_CONFIG=...`, прошить перед обычной прошивкой.
+
+</details>
+
+### Версии зависимостей
+`config/west.yml` закрепляет точные коммиты: форк `darknao/zmk` (`zmk-perkey_ug`) и форк модуля экранов
+[`NoFilterA1/zmk-nice-oled`](https://github.com/NoFilterA1/zmk-nice-oled) (ветка `nzmk`). Чтобы обновиться, замените хеши.
+
+---
+
+## 🗂 Устройство репозитория
+
+```
+config/
+├── corne.keymap            раскладка, поведения, цвета слоёв
+├── corne.conf              настройки (экраны, Bluetooth, подсветка, питание)
+├── corne_left/right.overlay схема светодиодов половин
+├── west.yml                зависимости (закреплённые версии)
+├── CMakeLists.txt, Kconfig, zephyr/module.yml   свой модуль ZMK прямо в репозитории
+├── dts/                    описания своих поведений
+├── include/nzmk/           общие заголовки
+└── src/
+    ├── nzmk_rgb.c          движок подсветки: RIP, INV, батарея, синхронизация половин
+    ├── nzmk_caps.c         состояние Caps (компьютер + Caps Word) для экрана и светодиодов
+    ├── behavior_led_rgb.c  &lrgb: кнопки RGB с повтором при удержании
+    ├── behavior_led_sync.c &lsync: состояние RGB от левой к правой
+    ├── behavior_led_battery.c &lbat: показ заряда
+    ├── behavior_led_flash.c  &lflash: вспышка (смена Colemak)
+    ├── behavior_ug_solid.c / behavior_ug_caps.c  &ugs, &ugc: цвета слоёв (SOLID и красный при Caps)
+    ├── behavior_ru_caps.c / behavior_en_caps.c   Caps Word RU / EN
+    ├── behavior_snippet.c  &snip: сниппеты
+    ├── lang_gesture.c      двойной Shift+Ctrl = смена языка
+    ├── layer_latch.c       залипающая мышь
+    ├── behavior_tap_signal.c  сигнал «нажата клавиша» левая → правая (для кота)
+    └── behavior_display_toggle.c  &dsptog: гасить/включать экран
 ```
 
-Use `-p` (pristine) every time: without it west silently reuses the old CMake cache and ignores a changed shield.
+---
 
-**Debug build** (left half over USB): add `-S zmk-usb-logging` (and e.g. `-DCONFIG_ZMK_LOG_LEVEL_DBG=y`), then read `/dev/ttyACM*`
-(115200 baud). This is how the "dark OLED" problem was found.
+## ⚠ Известные ограничения
 
-**Reset saved settings:** build with `-DSHIELD=settings_reset` (empty `ZMK_CONFIG` dir) and flash that `.uf2` before the normal one.
-It clears saved state such as external power and Bluetooth bonds (re-pair the keyboard afterwards).
-
-Dependencies (`config/west.yml`) are pinned to exact commits: the `darknao/zmk` fork (`zmk-perkey_ug`, per-key RGB, Zephyr 4.1 / LVGL 9)
-and the `nice_oled` fork described above.
+- **`LAY`** даёт не более ~40 % яркости `SOL` (ограничение форка подсветки); оттенок и насыщенность меняют только слои с цветом SOL.
+- В режимах `SOL/BRE/SPE/SWI` Caps показывает только экран (перекрасить клавиши без правки форка нельзя).
+- В логе Bluetooth на каждую смену слоя бывает ошибка `bt_l2cap: Expecting 1 ref, got 0` (синхронизация слоя форка). Работе не мешает, причина не найдена.
+- Порт экранов `nice_oled` на LVGL 9 не проверялся его автором на этом OLED, часть расположений подобрана вручную.
+- `Colemak-DH` в варианте Angle (`X C D V Z`).
+- `х` / `ъ` / `ё` в русской раскладке лежат на слое Raise (русский слой решено не делать).
 
 ---
 
-## ⚡ Latency notes
+## 🙏 Благодарности
 
-- Split link (left ↔ right): connection interval 7.5 ms, **latency 0** (`ZMK_SPLIT_BLE_PREF_LATENCY=0`; default 30 would let the right half
-  sleep up to ~225 ms and delay layer/RGB commands). Costs some battery on the right half.
-- Host link (Bluetooth): interval 7.5–11.25 ms, latency 0, TX power +8 dBm. USB HID polling: 1 ms.
-- Debounce 7 ms press/release (ZMK default is 5). Kept on purpose for typing on soft surfaces; lower it for less latency, raise it if you get double letters or stuck keys.
-- Combos delay their keys by 50 ms: keep them off the layer/thumb keys.
-
-## 🩺 Known issues
-
-- **Bluetooth log error on layer change:** `bt_l2cap: Expecting 1 ref, got 0` appears in the debug log every time the central sends the layer state
-  to the right half (the per-key RGB fork syncs layers). Not fixed; suspected to be related to rare freezes after idle.
-- **Deep sleep is disabled** (`CONFIG_ZMK_SLEEP=n`) while that is investigated.
-- **Third-party code:** the `nice_oled` port is not tested by its author on this OLED layout; positions may need further tuning.
-
----
-
-## 🎮 Pro Tips
-
-1. **Learn Colemak gradually:**
-   - Start on QWERTY (L0) using Lower/Raise for numbers/symbols
-   - Switch to Colemak (L1) when comfortable
-   - Your muscle memory for L2/L3/L4 transfers perfectly
-
-2. **Use Adjust for everything:**
-   - Mouse speed is set by `ZMK_POINTING_DEFAULT_MOVE_VAL` at the top of the keymap
-   - Need a function key? Adjust layer has F1–F12
-
-3. **Game macros:**
-   - Double-tap F3 on the Adjust layer runs the `F3↓ D F3↑` macro
-   - Add more macros via new `macros {}` sections in keymap
-
-4. **RGB customization:**
-   - On the Adjust layer press the `L5` key to enter RGB Controls
-   - Use `RGB_HUI` to cycle hue, `RGB_SAI` for saturation
-   - Press `L0` (top row, 5th key) to return to QWERTY
-
----
-
-## 📚 Resources
-
-- **ZMK Documentation:** https://zmk.dev/
-- **Corne PCB Guide:** https://github.com/foostan/crkbd
-- **ZMK Behaviors:** https://zmk.dev/docs/behaviors/
-- **RGB Controls:** https://zmk.dev/docs/features/underglow/
-
----
-
-<div align="center">
-
-**Built with ⌨️ for comfort, customization, and speed**
-
-Questions? Check the ZMK Discord or open an issue.
-
-</div>
+- [ZMK Firmware](https://zmk.dev)
+- [`darknao/zmk`](https://github.com/darknao/zmk): подсветка по слоям (ветка `zmk-perkey_ug`)
+- [`mctechnology17/zmk-nice-oled`](https://github.com/mctechnology17/zmk-nice-oled) и порт на LVGL 9 от [`tokyo2006`](https://github.com/mctechnology17/zmk-nice-oled/pull/37)

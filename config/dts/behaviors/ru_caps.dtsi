@@ -1,0 +1,15 @@
+/ {
+    behaviors {
+        ru_caps: ru_caps {
+            compatible = "zmk,behavior-ru-caps";
+            #binding-cells = <0>;
+            display-name = "Caps Word RU";
+        };
+
+        en_caps: en_caps {
+            compatible = "zmk,behavior-en-caps";
+            #binding-cells = <0>;
+            display-name = "Caps Word EN";
+        };
+    };
+};

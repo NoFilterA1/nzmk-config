@@ -1,0 +1,9 @@
+/ {
+    behaviors {
+        snip: snip {
+            compatible = "zmk,behavior-snippet";
+            #binding-cells = <2>;
+            display-name = "Snippet";
+        };
+    };
+};

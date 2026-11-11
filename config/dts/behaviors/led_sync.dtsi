@@ -1,0 +1,16 @@
+/ {
+    behaviors {
+        // Behavior can be invoked on peripherals, so name must be <= 8 characters.
+        lsync: lsync {
+            compatible = "zmk,behavior-led-sync";
+            #binding-cells = <1>;
+            display-name = "LED Sync";
+        };
+
+        lbat: lbat {
+            compatible = "zmk,behavior-led-battery";
+            #binding-cells = <0>;
+            display-name = "LED Battery";
+        };
+    };
+};

@@ -1,0 +1,5 @@
+description: Letter key that types a text snippet while the Ctrl+Shift+Backspace chord is held
+
+compatible: "zmk,behavior-snippet"
+
+include: two_param.yaml
